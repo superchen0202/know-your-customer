@@ -9,11 +9,16 @@ const Email = () => {
   return (
     <>
       <Input
+        required
+        id={field.name}
         {...field}
         type="email"
+        inputMode="email"
+        autoComplete="email"
+        spellCheck="false"
+        placeholder="you@example.com"
         maxLength={MAX_EMAIL_LENGTH}
         error={fieldState.error?.message}
-        placeholder="you@example.com"
       />
     </>
   );

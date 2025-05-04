@@ -1,17 +1,27 @@
 import { ComponentProps, memo } from 'react';
 import { cn } from '@/utils/cn';
 import ErrorMessage from '@/shared/components/ErrorMessage';
+// import { ControllerFieldState } from 'react-hook-form';
 
 type RequireProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
-type InputProps = RequireProps<ComponentProps<'input'>, 'type'> & {
+type InputProps = RequireProps<ComponentProps<'input'>, 'type' | 'required'> & {
   error: string | undefined;
+  // fieldState: ControllerFieldState;
 };
 
-const Input = ({ className, type, error, ...props }: InputProps) => {
+// TODO
+// required sign for <label htmlFor>
+// prefix icon
+// postfix icon
+const Input = (props: InputProps) => {
+  const { className, type, error, required, name, ...rest } = props;
+
   return (
     <>
       <input
         type={type}
+        // required={required}
+        aria-label={name}
         aria-invalid={error ? 'true' : 'false'}
         data-slot="input"
         className={cn(
@@ -24,11 +34,14 @@ const Input = ({ className, type, error, ...props }: InputProps) => {
               'border-input',
           className,
         )}
-        {...props}
+        {...rest}
       />
       <ErrorMessage error={error} />
     </>
   );
 };
 
-export default memo(Input);
+export default memo(
+  Input,
+  // (prevProps, nextProps) => prevProps.fieldState.isDirty === nextProps.fieldState.isDirty
+);

@@ -10,11 +10,15 @@ const Name = () => {
   return (
     <>
       <Input
-        maxLength={MAX_NAME_LENGTH}
+        required
+        id={field.name}
         {...field}
         type="text"
+        inputMode="text"
+        autoComplete="name"
+        placeholder="Your name"
+        maxLength={MAX_NAME_LENGTH}
         error={fieldState.error?.message}
-        placeholder="your name"
       />
     </>
   );

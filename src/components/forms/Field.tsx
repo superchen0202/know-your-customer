@@ -4,16 +4,16 @@ import Phone from './Phone';
 import Address from './Address';
 import Nationality from './Nationality';
 import Gender from './Gender';
-import BirthDate from './BirthDate';
+// import BirthDate from './BirthDate';
 
-const BasicInfoField = {
+const BasicInfoFields = {
   Name,
   Email,
-  // Phone,
-  // Address,
+  Phone,
+  Address,
   Nationality,
-  // Gender,
+  Gender,
   // BirthDate,
 };
 
-export default BasicInfoField;
+export default BasicInfoFields;

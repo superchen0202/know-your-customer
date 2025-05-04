@@ -4,11 +4,12 @@ import { nationalityOptions } from '@/constants/nationality';
 import Select from '../ui/Select';
 
 const Nationality = () => {
-  const { field } = useController<BasicInfoSchema>({ name: 'nationality' });
+  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'nationality' });
+  // console.log(fieldState.error?.message);
 
   return (
     <>
-      <Select options={nationalityOptions} {...field} />
+      <Select options={nationalityOptions} {...field} placeholder="Please select your nationality" />
     </>
   );
 };

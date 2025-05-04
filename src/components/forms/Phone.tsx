@@ -1,16 +1,45 @@
-import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
+import Input from '../ui/Input';
+import { MAX_PHONE_LENGTH } from '@/constants/constants';
+import { type CountryCode, getExampleNumber, formatNumber, formatIncompletePhoneNumber } from 'libphonenumber-js';
+import examples from 'libphonenumber-js/mobile/examples';
 
 const Phone = () => {
-  const { register, setValue } = useFormContext<BasicInfoSchema>();
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => setValue('phone', event.target.value);
+  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'phone' });
+  const { getValues } = useFormContext<BasicInfoSchema>();
+
+  const nationality = getValues('nationality') as CountryCode;
+  const exampleNumber = getExampleNumber(nationality, examples);
+  const placeholder = exampleNumber ? `ex: ${formatNumber(exampleNumber.number, 'NATIONAL')}` : 'Phone Number';
+
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const unformattedPhone = event.target.value;
+
+    //.format('E.164'); for BE
+    const formattedPhone = formatIncompletePhoneNumber(unformattedPhone, nationality);
+    //const phone = parsePhoneNumberFromString(formattedPhone, nationality);
+
+    field.onChange(formattedPhone);
+  };
 
   return (
     <>
-      <input placeholder="phone" {...register('phone')} onChange={changeHandler} />
+      <Input
+        required
+        id={field.name}
+        {...field}
+        onChange={changeHandler}
+        type="tel"
+        inputMode="tel"
+        autoComplete="tel"
+        spellCheck="false"
+        placeholder={placeholder}
+        maxLength={MAX_PHONE_LENGTH}
+        error={fieldState.error?.message}
+      />
     </>
   );
 };
 
-export default memo(Phone);
+export default Phone;

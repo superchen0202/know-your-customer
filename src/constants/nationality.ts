@@ -1,4 +1,5 @@
 import { createEnumOptions, defineEnumMap } from '@/utils/createEnumOptions';
+import { CountryCode } from 'libphonenumber-js';
 
 export const nationalityMap = {
   AU: 'Australia',
@@ -13,13 +14,12 @@ export const nationalityMap = {
   BR: 'Brazil',
 } as const;
 
-export type CountryCode = keyof typeof nationalityMap;
-export type CountryName = (typeof nationalityMap)[CountryCode];
+export type PartialCountryCode = Extract<CountryCode, keyof typeof nationalityMap>;
+export type CountryName = (typeof nationalityMap)[PartialCountryCode];
 
-// export const nationalitiesEnum = ['AU', 'US', 'GB', 'TW', 'IN', 'CA', 'CN', 'DE', 'SG', 'BR'] as const;
-export const nationalitiesEnum = Object.keys(nationalityMap) as [CountryCode, ...CountryCode[]];
+export const nationalitiesEnum = Object.keys(nationalityMap) as [PartialCountryCode, ...PartialCountryCode[]];
 
-export const nationalitiesLabelMap = defineEnumMap<CountryCode, { label: CountryName }>({
+export const nationalitiesLabelMap = defineEnumMap<PartialCountryCode, { label: CountryName }>({
   AU: { label: 'Australia' },
   US: { label: 'United States' },
   GB: { label: 'United Kingdom' },

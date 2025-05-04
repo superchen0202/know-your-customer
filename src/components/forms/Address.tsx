@@ -1,16 +1,26 @@
-import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
+import Input from '../ui/Input';
+import { MAX_ADDRESS_LENGTH } from '@/constants/constants';
 
 const Address = () => {
-  const { register, setValue } = useFormContext<BasicInfoSchema>();
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => setValue('address', event.target.value);
+  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'address' });
 
   return (
     <>
-      <input placeholder="address" {...register('address')} onChange={changeHandler} />
+      <Input
+        required
+        id={field.name}
+        {...field}
+        type="text"
+        inputMode="text"
+        autoComplete="address-line1"
+        placeholder="Your address"
+        maxLength={MAX_ADDRESS_LENGTH}
+        error={fieldState.error?.message}
+      />
     </>
   );
 };
 
-export default memo(Address);
+export default Address;
