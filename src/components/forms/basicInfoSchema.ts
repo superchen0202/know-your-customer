@@ -1,5 +1,9 @@
-import { object, string, z, nativeEnum } from 'zod';
-import { CountryCode, Gender } from '@/types/basicInfo';
+import { object, string, z } from 'zod';
+import { MAX_NAME_LENGTH, MAX_EMAIL_LENGTH } from '@/constants/constants';
+import { createMaxLengthErrorMessage } from '@/utils/validation/validate';
+import { genderEnum } from '@/constants/gender';
+// import { nationalitiesEnum } from '@/constants/nationality';
+
 /*
 • Name (Input, required)
 • Email (Input, required, must follow email format)
@@ -8,32 +12,33 @@ import { CountryCode, Gender } from '@/types/basicInfo';
 • Gender (Select, optional, options include "Male", "Female", and "Prefer not to say")
 • Address (Input, optional)
 • Date of Birth (DatePicker, required, must verify age between 18-85 years)
-• Form has a "Next" button at the bottom, clicking requires form validation
 // */
+
 export const schema = object({
-  name: string().nonempty('Name is required'),
-  email: string().email('Invalid email format').nonempty('Email is required'),
-  phone: string().nonempty('Phone is required'),
-  nationality: string(),
+  name: string()
+    .trim()
+    .nonempty('Name is required!')
+    .max(MAX_NAME_LENGTH, createMaxLengthErrorMessage('Name', MAX_NAME_LENGTH)),
+  email: string()
+    .trim()
+    .nonempty('Email is required')
+    .email('Invalid email format!')
+    .max(MAX_NAME_LENGTH, createMaxLengthErrorMessage('Email', MAX_EMAIL_LENGTH)),
+  // phone: string().nonempty('Phone is required'),
+  nationality: string().optional(),
   gender: string().optional(),
-  address: string().optional(),
-  birthDate: string().refine(
-    (date) => {
-      const age = new Date().getFullYear() - new Date(date).getFullYear();
-      return age >= 18 && age <= 85;
-    },
-    { message: 'Age must be between 18 and 85 years' },
-  ),
+  // address: string().optional(),
+  // birthDate: string(),
 });
 
 export type BasicInfoSchema = z.infer<typeof schema>;
 
-export const defaultValues: BasicInfoSchema = {
+export const defaultValues = {
   name: '',
   email: '',
-  phone: '',
-  nationality: '',
-  gender: '',
-  address: '',
-  birthDate: '',
-};
+  // phone: '',
+  // nationality: undefined,
+  gender: undefined,
+  // address: '',
+  // birthDate: '',
+} satisfies BasicInfoSchema;

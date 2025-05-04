@@ -2,13 +2,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, BasicInfoSchema, defaultValues } from './basicInfoSchema';
 import DataDisplayer from '@/shared/components/DataDisplayer';
-import Name from './Name';
-import Email from './Email';
-import Phone from './Phone';
-import Address from './Address';
-import Nationality from './Nationality';
-import Gender from './Gender';
-import BirthDate from './BirthDate';
+import BasicInfoField from './Field';
 
 const BasicInfo = () => {
   const formMethods = useForm<BasicInfoSchema>({
@@ -26,15 +20,9 @@ const BasicInfo = () => {
       <DataDisplayer debugData={formValue} />
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(submitHandler)}>
-          <div className="flex flex-col gap-2">
-            <Name />
-            <Email />
-            <Phone />
-            <Nationality />
-            <Gender />
-            <Address />
-            <BirthDate />
-          </div>
+          {Object.entries(BasicInfoField).map(([key, Component]) => (
+            <Component key={key} />
+          ))}
           <input type="submit" />
         </form>
       </FormProvider>

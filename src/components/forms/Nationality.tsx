@@ -1,36 +1,16 @@
-import { memo } from 'react';
-import type { CountryOption } from '@/types/basicInfo';
-import { useFormContext } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
-
-const nationalityOptions: CountryOption[] = [
-  { code: 'AU', label: 'Australia' },
-  { code: 'US', label: 'United States' },
-  { code: 'GB', label: 'United Kingdom' },
-  { code: 'TW', label: 'Taiwan' },
-  { code: 'IN', label: 'India' },
-  { code: 'CA', label: 'Canada' },
-  { code: 'CN', label: 'China' },
-  { code: 'DE', label: 'Germany' },
-  { code: 'SG', label: 'Singapore' },
-  { code: 'BR', label: 'Brazil' },
-];
+import { nationalityOptions } from '@/constants/nationality';
+import Select from '../ui/Select';
 
 const Nationality = () => {
-  const { register, setValue } = useFormContext<BasicInfoSchema>();
-  const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => setValue('nationality', event.target.value);
+  const { field } = useController<BasicInfoSchema>({ name: 'nationality' });
 
   return (
     <>
-      <select id="nationality" title="nationality" {...register('nationality')} onChange={changeHandler}>
-        {nationalityOptions.map((option) => (
-          <option key={option.code} value={option.code}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <Select options={nationalityOptions} {...field} />
     </>
   );
 };
 
-export default memo(Nationality);
+export default Nationality;

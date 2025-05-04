@@ -1,16 +1,22 @@
-import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
+import Input from '../ui/Input';
+import { MAX_EMAIL_LENGTH } from '@/constants/constants';
 
 const Email = () => {
-  const { register, setValue } = useFormContext<BasicInfoSchema>();
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => setValue('email', event.target.value);
+  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'email' });
 
   return (
     <>
-      <input placeholder="email" {...register('email')} onChange={changeHandler} />
+      <Input
+        {...field}
+        type="email"
+        maxLength={MAX_EMAIL_LENGTH}
+        error={fieldState.error?.message}
+        placeholder="you@example.com"
+      />
     </>
   );
 };
 
-export default memo(Email);
+export default Email;
