@@ -7,12 +7,12 @@ import Gender from './Gender';
 import BirthDate from './BirthDate';
 
 const BasicInfoFields = {
-  // Name,
-  // Email,
-  // Phone,
-  // Address,
-  // Nationality,
-  // Gender,
+  Name,
+  Email,
+  Phone,
+  Address,
+  Nationality,
+  Gender,
   BirthDate,
 };
 

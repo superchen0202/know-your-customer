@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Calendar, X } from 'lucide-react';
 import { today, yearsList, months, currentMonth, currentYear } from '@/constants/dates';
 import useClickOutside from '@/hooks/useClickOutside';
 import { getDaysInMonth, startOfMonth, getDay, isAfter, isBefore, isValid } from 'date-fns';
-import { formatDate, parseStringToDateSafely } from '@/utils/timeParsingTools';
+import { formatDate, parseStringToDateSafely } from '@/utils/timeParsingHelper';
 import CalendarHeader from './CalendarHeader';
 
 type DatePickerProps = {

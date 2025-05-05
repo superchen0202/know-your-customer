@@ -8,7 +8,7 @@ const BasicInfo = () => {
   const formMethods = useForm<BasicInfoSchema>({
     defaultValues,
     resolver: zodResolver(schema),
-    mode: 'onSubmit', //TODO mode: 'onSubmit',
+    mode: 'onSubmit',
   });
 
   const { handleSubmit, watch } = formMethods;

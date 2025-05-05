@@ -1,61 +1,75 @@
 import { object, string, infer as infer_ } from 'zod';
-import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { CountryCode } from 'libphonenumber-js';
 import {
   MAX_NAME_LENGTH,
   MAX_EMAIL_LENGTH,
   MAX_PHONE_LENGTH,
   MAX_ADDRESS_LENGTH,
 } from '@/constants/fieldLengthLimitation';
-import { today } from '@/constants/dates';
+import { MAX_AGE, MIN_AGE, today } from '@/constants/dates';
 import { Gender } from '@/constants/gender';
 import { PartialCountryCode } from '@/constants/nation';
 import { possibleDefaultNation } from '@/utils/inferPossibleNationAsDefault';
-import { isLegalNationOptions, isLegalGenderOptions } from '@/utils/validation';
-import { formatDate } from '@/utils/timeParsingTools';
+import {
+  isPhoneValid,
+  isNationOptionsValid,
+  isGenderOptionsValid,
+  isDateMatchFormat,
+  isDateValid,
+  isAgeRangeValid,
+} from '@/utils/validation';
+import { formatDate } from '@/utils/timeParsingHelper';
 
-const createRequiredErrorMessage = (fieldName: string) => `${fieldName} is required!`;
-const createMaxLengthErrorMessage = (fieldName: string, maxLength: number) =>
-  `${fieldName} cannot exceed ${maxLength} characters!`;
+const createRequiredErrorMsg = (fieldName: string) => `${fieldName} Is Required!`;
+const createOverLengthErrorMsg = (fieldName: string, maxLength: number) =>
+  `${fieldName} Cannot Exceed ${maxLength} Characters!`;
+const createInvalidValueErrorMsg = (fieldName: string) => `Invalid ${fieldName} Value!`;
 
 export const schema = object({
   name: string()
     .trim()
-    .nonempty(createRequiredErrorMessage('Name'))
-    .max(MAX_NAME_LENGTH, createMaxLengthErrorMessage('Name', MAX_NAME_LENGTH)),
+    .nonempty(createRequiredErrorMsg('Name'))
+    .max(MAX_NAME_LENGTH, createOverLengthErrorMsg('Name', MAX_NAME_LENGTH)),
   email: string()
     .trim()
-    .nonempty(createRequiredErrorMessage('Email'))
+    .nonempty(createRequiredErrorMsg('Email'))
     .email('Invalid email format!')
-    .max(MAX_EMAIL_LENGTH, createMaxLengthErrorMessage('Email', MAX_EMAIL_LENGTH)),
+    .max(MAX_EMAIL_LENGTH, createOverLengthErrorMsg('Email', MAX_EMAIL_LENGTH)),
   phone: string()
     .trim()
-    .nonempty(createRequiredErrorMessage('Phone'))
-    .max(MAX_PHONE_LENGTH, createMaxLengthErrorMessage('Phone', MAX_PHONE_LENGTH)),
+    .nonempty(createRequiredErrorMsg('Phone'))
+    .max(MAX_PHONE_LENGTH, createOverLengthErrorMsg('Phone', MAX_PHONE_LENGTH)),
   // 'AU', ISO 3166 alpha-2
   nationality: string()
     .trim()
-    .nonempty(createRequiredErrorMessage('Nationality'))
-    .refine((val) => isLegalNationOptions(val as PartialCountryCode), {
-      message: 'Invalid nation Code!',
+    .nonempty(createRequiredErrorMsg('Nationality'))
+    .refine((val) => isNationOptionsValid(val as PartialCountryCode), {
+      message: createInvalidValueErrorMsg('Nation'),
     }),
   gender: string()
     .trim()
     .optional()
-    .refine((val) => isLegalGenderOptions(val as Gender), {
-      message: 'Invalid gender Option!',
+    .refine((val) => isGenderOptionsValid(val as Gender), {
+      message: createInvalidValueErrorMsg('Gender'),
     }),
-  address: string()
-    .trim()
-    .max(MAX_ADDRESS_LENGTH, createMaxLengthErrorMessage('Address', MAX_ADDRESS_LENGTH))
-    .optional(),
+  address: string().trim().max(MAX_ADDRESS_LENGTH, createOverLengthErrorMsg('Address', MAX_ADDRESS_LENGTH)).optional(),
   // 2025-05-05, ISO 8601, must verify age between 18-85 years
-  birthDate: string().trim().nonempty(createRequiredErrorMessage('Date')),
+  birthDate: string()
+    .trim()
+    .nonempty(createRequiredErrorMsg('Date'))
+    .refine((val) => isDateMatchFormat(val), {
+      message: 'Date Must Be In YYYY-MM-DD Format!',
+    })
+    .refine((val) => isDateValid(val), {
+      message: createInvalidValueErrorMsg('Date'),
+    })
+    .refine((val) => isAgeRangeValid(val, MIN_AGE, MAX_AGE), {
+      message: `Age Must Be Between ${MIN_AGE} And ${MAX_AGE} Years Old!`,
+    }),
 }).refine(
-  (formContext) => {
-    const { phone, nationality } = formContext;
+  ({ phone, nationality }) => {
     try {
-      const phoneNumber = parsePhoneNumberFromString(phone, nationality as CountryCode);
-      return phoneNumber?.isValid();
+      return isPhoneValid(phone, nationality as CountryCode);
     } catch {
       return false;
     }
@@ -65,6 +79,7 @@ export const schema = object({
     message: 'Invalid phone number format',
   },
 );
+//*/
 
 export type BasicInfoSchema = infer_<typeof schema>;
 
