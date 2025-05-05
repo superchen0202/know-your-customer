@@ -1,7 +1,7 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { schema, BasicInfoSchema, defaultValues } from './basicInfoSchema';
-import BasicInfoFields from './Field';
+import { schema, BasicInfoSchema, defaultValues } from './schema';
+import BasicInfoFields from './Fields';
 import DataDisplayer from '@/shared/components/DataDisplayer';
 
 const BasicInfo = () => {
@@ -17,6 +17,7 @@ const BasicInfo = () => {
 
   return (
     <>
+      {/* TODO remove after development */}
       <DataDisplayer debugData={formValue} />
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(submitHandler)}>

@@ -1,4 +1,4 @@
-import { createEnumOptions, defineEnumMap } from '@/utils/createEnumOptions';
+import { createEnumOptions, defineEnumMap } from '@/utils/enumToOptionsFactory';
 
 export type Gender = 'male' | 'female' | 'prefer_not_to_say';
 export const genderEnum = ['male', 'female', 'prefer_not_to_say'] as [Gender, ...Gender[]];

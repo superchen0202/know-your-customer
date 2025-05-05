@@ -1,4 +1,4 @@
-import BasicInfo from './components/forms/BasicInfo';
+import BasicInfo from './components/forms/BasicInfo/Form';
 
 const App = () => {
   return (

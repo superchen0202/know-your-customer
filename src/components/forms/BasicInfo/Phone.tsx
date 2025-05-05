@@ -1,7 +1,7 @@
 import { useController, useFormContext } from 'react-hook-form';
-import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
-import Input from '../ui/Input';
-import { MAX_PHONE_LENGTH } from '@/constants/constants';
+import { type BasicInfoSchema } from '@/components/forms/BasicInfo/schema';
+import Input from '../../ui/Input';
+import { MAX_PHONE_LENGTH } from '@/constants/fieldLengthLimitation';
 import { type CountryCode, getExampleNumber, formatNumber, formatIncompletePhoneNumber } from 'libphonenumber-js';
 import examples from 'libphonenumber-js/mobile/examples';
 

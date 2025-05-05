@@ -1,7 +1,7 @@
 import { useController } from 'react-hook-form';
-import type { BasicInfoSchema } from '@/components/forms/basicInfoSchema';
-import Input from '../ui/Input';
-import { MAX_NAME_LENGTH } from '@/constants/constants';
+import { type BasicInfoSchema } from '@/components/forms/BasicInfo/schema';
+import Input from '../../ui/Input';
+import { MAX_NAME_LENGTH } from '@/constants/fieldLengthLimitation';
 
 // https://react-hook-form.com/advanced-usage#FormProviderPerformance
 const Name = () => {

@@ -1,10 +1,21 @@
-import { z, object, string, infer as infer_ } from 'zod';
-import { MAX_NAME_LENGTH, MAX_EMAIL_LENGTH, MAX_PHONE_LENGTH, MAX_ADDRESS_LENGTH } from '@/constants/constants';
-import { createRequiredErrorMessage, createMaxLengthErrorMessage } from '@/utils/validation/validate';
+import { object, string, infer as infer_ } from 'zod';
 import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
-import { isLegalNation } from '@/utils/inferPossibleNationAsDefault';
-import { PartialCountryCode } from '@/constants/nationality';
-import { defaultNation } from '@/utils/inferPossibleNationAsDefault';
+import {
+  MAX_NAME_LENGTH,
+  MAX_EMAIL_LENGTH,
+  MAX_PHONE_LENGTH,
+  MAX_ADDRESS_LENGTH,
+} from '@/constants/fieldLengthLimitation';
+import { today } from '@/constants/dates';
+import { Gender } from '@/constants/gender';
+import { PartialCountryCode } from '@/constants/nation';
+import { possibleDefaultNation } from '@/utils/inferPossibleNationAsDefault';
+import { isLegalNationOptions, isLegalGenderOptions } from '@/utils/validation';
+import { formatDate } from '@/utils/timeParsingTools';
+
+const createRequiredErrorMessage = (fieldName: string) => `${fieldName} is required!`;
+const createMaxLengthErrorMessage = (fieldName: string, maxLength: number) =>
+  `${fieldName} cannot exceed ${maxLength} characters!`;
 
 export const schema = object({
   name: string()
@@ -20,19 +31,25 @@ export const schema = object({
     .trim()
     .nonempty(createRequiredErrorMessage('Phone'))
     .max(MAX_PHONE_LENGTH, createMaxLengthErrorMessage('Phone', MAX_PHONE_LENGTH)),
-  // ISO 3166 alpha-2, 'AU',
+  // 'AU', ISO 3166 alpha-2
   nationality: string()
     .trim()
     .nonempty(createRequiredErrorMessage('Nationality'))
-    .refine((val) => isLegalNation(val as PartialCountryCode), {
-      message: 'Invalid Nation Code!',
+    .refine((val) => isLegalNationOptions(val as PartialCountryCode), {
+      message: 'Invalid nation Code!',
     }),
-  gender: string().optional(),
+  gender: string()
+    .trim()
+    .optional()
+    .refine((val) => isLegalGenderOptions(val as Gender), {
+      message: 'Invalid gender Option!',
+    }),
   address: string()
     .trim()
     .max(MAX_ADDRESS_LENGTH, createMaxLengthErrorMessage('Address', MAX_ADDRESS_LENGTH))
     .optional(),
-  // birthDate: string(), // (DatePicker, required, must verify age between 18-85 years)
+  // 2025-05-05, ISO 8601, must verify age between 18-85 years
+  birthDate: string().trim().nonempty(createRequiredErrorMessage('Date')),
 }).refine(
   (formContext) => {
     const { phone, nationality } = formContext;
@@ -56,8 +73,8 @@ export const defaultValues = {
   name: '',
   email: '',
   phone: '',
-  nationality: defaultNation,
+  nationality: possibleDefaultNation,
   gender: '',
   address: '',
-  // birthDate: '',
+  birthDate: formatDate(today), // formatDate(new Date('1981-15-31'))
 } satisfies BasicInfoSchema;
