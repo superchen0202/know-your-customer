@@ -1,13 +1,13 @@
 import { useController, useFormContext } from 'react-hook-form';
-import { type BasicInfoSchema } from '@/components/forms/BasicInfo/schema';
+import { type BasicInfo } from '@/components/forms/BasicInfo/schema';
 import Input from '../../ui/Input';
 import { MAX_PHONE_LENGTH } from '@/constants/fieldLengthLimitation';
 import { type CountryCode, getExampleNumber, formatNumber, formatIncompletePhoneNumber } from 'libphonenumber-js';
 import examples from 'libphonenumber-js/mobile/examples';
 
 const Phone = () => {
-  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'phone' });
-  const { getValues } = useFormContext<BasicInfoSchema>();
+  const { field, fieldState } = useController<BasicInfo>({ name: 'phone' });
+  const { getValues } = useFormContext<BasicInfo>();
 
   const nationality = getValues('nationality') as CountryCode;
   const exampleNumber = getExampleNumber(nationality, examples);

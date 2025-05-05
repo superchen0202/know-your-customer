@@ -1,10 +1,10 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfoSchema } from '@/components/forms/BasicInfo/schema';
+import { type BasicInfo } from '@/components/forms/BasicInfo/schema';
 import Select from '../../ui/Select';
 import { genderOptions } from '@/constants/gender';
 
 const Gender = () => {
-  const { field, fieldState } = useController<BasicInfoSchema>({ name: 'gender' });
+  const { field, fieldState } = useController<BasicInfo>({ name: 'gender' });
   // console.log(fieldState.error?.message);
 
   return (

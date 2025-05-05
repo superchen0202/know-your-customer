@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfoSchema } from '@/components/forms/BasicInfo/schema';
+import { type BasicInfo } from '@/components/forms/BasicInfo/schema';
 import DatePicker from '@/components/ui/DatePicker/DatePicker';
 import { today } from '@/constants/dates';
 import { parseStringToDateSafely } from '@/utils/timeParsingHelper';
@@ -9,7 +9,7 @@ const BirthDate = () => {
   const {
     field,
     fieldState: { error },
-  } = useController<BasicInfoSchema>({ name: 'birthDate' });
+  } = useController<BasicInfo>({ name: 'birthDate' });
 
   const parsedDate = parseStringToDateSafely(field.value);
 

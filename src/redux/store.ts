@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import demoCounterSlice from '@/redux/demoCounterSlice';
+import formStepsSlice from '@/redux/formStepsSlice';
+import basicInfoSlice from './basicInfoSlice';
 
 export const store = configureStore({
   reducer: {
-    demoCounter: demoCounterSlice,
+    formSteps: formStepsSlice,
+    basicInfo: basicInfoSlice,
   },
 });
 

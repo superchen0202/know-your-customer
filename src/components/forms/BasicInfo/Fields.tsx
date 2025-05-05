@@ -6,7 +6,7 @@ import Nationality from './Nationality';
 import Gender from './Gender';
 import BirthDate from './BirthDate';
 
-const BasicInfoFields = {
+const BasicInformationFields = {
   Name,
   Email,
   Phone,
@@ -16,4 +16,4 @@ const BasicInfoFields = {
   BirthDate,
 };
 
-export default BasicInfoFields;
+export default BasicInformationFields;

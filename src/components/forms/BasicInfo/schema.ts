@@ -6,10 +6,9 @@ import {
   MAX_PHONE_LENGTH,
   MAX_ADDRESS_LENGTH,
 } from '@/constants/fieldLengthLimitation';
-import { MAX_AGE, MIN_AGE, today } from '@/constants/dates';
+import { MAX_AGE, MIN_AGE } from '@/constants/dates';
 import { Gender } from '@/constants/gender';
 import { PartialCountryCode } from '@/constants/nation';
-import { possibleDefaultNation } from '@/utils/inferPossibleNationAsDefault';
 import {
   isPhoneValid,
   isNationOptionsValid,
@@ -18,7 +17,6 @@ import {
   isDateValid,
   isAgeRangeValid,
 } from '@/utils/validation';
-import { formatDate } from '@/utils/timeParsingHelper';
 
 const createRequiredErrorMsg = (fieldName: string) => `${fieldName} Is Required!`;
 const createOverLengthErrorMsg = (fieldName: string, maxLength: number) =>
@@ -48,10 +46,10 @@ export const schema = object({
     }),
   gender: string()
     .trim()
-    .optional()
-    .refine((val) => isGenderOptionsValid(val as Gender), {
-      message: createInvalidValueErrorMsg('Gender'),
-    }),
+    .refine((val) => val === '' || isGenderOptionsValid(val as Gender), {
+      message: 'Invalid gender',
+    })
+    .optional(),
   address: string().trim().max(MAX_ADDRESS_LENGTH, createOverLengthErrorMsg('Address', MAX_ADDRESS_LENGTH)).optional(),
   // 2025-05-05, ISO 8601, must verify age between 18-85 years
   birthDate: string()
@@ -79,17 +77,5 @@ export const schema = object({
     message: 'Invalid phone number format',
   },
 );
-//*/
 
-export type BasicInfoSchema = infer_<typeof schema>;
-
-// for redux-toolkit later
-export const defaultValues = {
-  name: '',
-  email: '',
-  phone: '',
-  nationality: possibleDefaultNation,
-  gender: '',
-  address: '',
-  birthDate: formatDate(today), // formatDate(new Date('1981-15-31'))
-} satisfies BasicInfoSchema;
+export type BasicInfo = infer_<typeof schema>;

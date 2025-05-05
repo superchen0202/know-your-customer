@@ -1,7 +1,4 @@
-// export type InputProps = {
-//   field: ReturnType<typeof useController>['field'];
-//   fieldState: ReturnType<typeof useController>['fieldState'];
-// };
+type RequireProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 export type BaseMeta = { label: string };
 

@@ -1,34 +1,43 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { schema, BasicInfoSchema, defaultValues } from './schema';
-import BasicInfoFields from './Fields';
-import DataDisplayer from '@/shared/components/DataDisplayer';
+import { schema, type BasicInfo } from './schema';
+import BasicInformationFields from './Fields';
+import FormContainer from '@/components/FormContainer';
+import { useAppSelector, useAppDispatch } from '@/redux/hooks';
+import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
+import Button from '@/components/ui/Button';
+import { nextStep } from '@/redux/formStepsSlice';
 
-const BasicInfo = () => {
-  const formMethods = useForm<BasicInfoSchema>({
+// https://react-hook-form.com/advanced-usage#WizardFormFunnel
+const BasicInformation = () => {
+  const defaultValues = useAppSelector((state) => state.basicInfo);
+  const dispatch = useAppDispatch();
+
+  const formMethods = useForm<BasicInfo>({
     defaultValues,
     resolver: zodResolver(schema),
     mode: 'onSubmit',
   });
 
-  const { handleSubmit, watch } = formMethods;
-  const formValue = watch();
-  const submitHandler = (formData: BasicInfoSchema) => console.log(formData);
+  const { handleSubmit } = formMethods;
+  const submitHandler = (formData: BasicInfo) => {
+    dispatch(updateBasicInfoForm(formData));
+    dispatch(nextStep());
+    console.log(formData);
+  };
 
   return (
-    <>
-      {/* TODO remove after development */}
-      <DataDisplayer debugData={formValue} />
+    <FormContainer>
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(submitHandler)}>
-          {Object.entries(BasicInfoFields).map(([fieldName, BasicInfoField]) => (
+          {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
             <BasicInfoField key={fieldName} />
           ))}
-          <input type="submit" />
+          <Button type="submit" btnText="Next" />
         </form>
       </FormProvider>
-    </>
+    </FormContainer>
   );
 };
 
-export default BasicInfo;
+export default BasicInformation;

@@ -24,6 +24,6 @@ export const isDateValid = (date: string) => parseStringToDateSafely(date);
 export const isAgeRangeValid = (date: string, lowerBound: number, upperBound: number) => {
   const birth = parseISO(date);
   const age = differenceInYears(today, birth);
-  console.log(age);
+  // console.log('age is from differenceInYears(today, parseISO(date))', age);
   return lowerBound <= age && age <= upperBound;
 };

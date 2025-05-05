@@ -1,9 +1,9 @@
 import { ComponentProps, memo } from 'react';
 import { cn } from '@/utils/cn';
 import ErrorMessage from '@/shared/components/ErrorMessage';
+import { RequireProps } from '@/types/basicInfo';
 // import { ControllerFieldState } from 'react-hook-form';
 
-type RequireProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 type InputProps = RequireProps<ComponentProps<'input'>, 'type' | 'required'> & {
   error: string | undefined;
   // fieldState: ControllerFieldState;
