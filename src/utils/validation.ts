@@ -27,3 +27,13 @@ export const isAgeRangeValid = (date: string, lowerBound: number, upperBound: nu
   // console.log('age is from differenceInYears(today, parseISO(date))', age);
   return lowerBound <= age && age <= upperBound;
 };
+
+export const isAcceptedFileType = (file: File, accept: string) => {
+  const acceptedTypes = accept.split(',').map((type) => type.trim().toLowerCase());
+  return acceptedTypes.some((type) => {
+    if (type.startsWith('.')) {
+      return file.name.toLowerCase().endsWith(type);
+    }
+    return file.type === type;
+  });
+};

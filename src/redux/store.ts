@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import formStepsSlice from '@/redux/formStepsSlice';
+import formStepsSlice from './formStepsSlice';
 import basicInfoSlice from './basicInfoSlice';
+import uploadDocsSlice from './uploadDocsSlice';
 
 export const store = configureStore({
   reducer: {
     formSteps: formStepsSlice,
     basicInfo: basicInfoSlice,
+    uploadDocs: uploadDocsSlice,
   },
 });
 

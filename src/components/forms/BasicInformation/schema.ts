@@ -17,11 +17,7 @@ import {
   isDateValid,
   isAgeRangeValid,
 } from '@/utils/validation';
-
-const createRequiredErrorMsg = (fieldName: string) => `${fieldName} Is Required!`;
-const createOverLengthErrorMsg = (fieldName: string, maxLength: number) =>
-  `${fieldName} Cannot Exceed ${maxLength} Characters!`;
-const createInvalidValueErrorMsg = (fieldName: string) => `Invalid ${fieldName} Value!`;
+import { createRequiredErrorMsg, createOverLengthErrorMsg, createInvalidValueErrorMsg } from '@/utils/promptText';
 
 export const schema = object({
   name: string()
