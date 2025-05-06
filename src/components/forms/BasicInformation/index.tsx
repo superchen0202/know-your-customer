@@ -7,6 +7,7 @@ import BasicInformationFields from './Fields';
 import Button from '@/components/ui/Button';
 import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
 import { nextStep } from '@/redux/formStepsSlice';
+import { ArrowRight, Mail, Save, Trash } from 'lucide-react';
 
 // https://react-hook-form.com/advanced-usage#WizardFormFunnel
 const BasicInformation = () => {
@@ -27,16 +28,31 @@ const BasicInformation = () => {
   };
 
   return (
-    <FormContainer>
-      <FormProvider {...formMethods}>
-        <form onSubmit={handleSubmit(submitHandler)}>
-          {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
-            <BasicInfoField key={fieldName} />
-          ))}
-          <Button type="submit" btnText="Next" />
-        </form>
-      </FormProvider>
-    </FormContainer>
+    <>
+      <FormContainer>
+        <FormProvider {...formMethods}>
+          <form onSubmit={handleSubmit(submitHandler)}>
+            {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
+              <BasicInfoField key={fieldName} />
+            ))}
+
+            <Button type="submit" variant="primary" appearance="filled" startIcon={<Save />} endIcon={<ArrowRight />}>
+              Next
+            </Button>
+          </form>
+        </FormProvider>
+        <Button
+          onClick={() => dispatch(nextStep())}
+          // variant="primary"
+          // appearance="filled"
+          className="rounded-full"
+          startIcon={<Save />}
+          endIcon={<ArrowRight />}
+        >
+          Debug Next
+        </Button>
+      </FormContainer>
+    </>
   );
 };
 

@@ -18,8 +18,8 @@ const FormContainer = (props: FormContainerProps) => {
     <>
       {children}
       <>
-        {currentStep !== 'basicInfo' && <Button btnText="Back" onClick={() => dispatch(backStep())} />}
-        {currentStep === 'uploadFiles' && <Button btnText="Next" onClick={() => dispatch(nextStep())} />}
+        {currentStep !== 'basicInfo' && <Button onClick={() => dispatch(backStep())}>Back</Button>}
+        {currentStep === 'uploadFiles' && <Button onClick={() => dispatch(nextStep())}>Next</Button>}
       </>
     </>
   );
