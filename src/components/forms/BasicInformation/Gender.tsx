@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfo } from '@/components/forms/BasicInfo/schema';
+import { type BasicInfo } from '@/components/forms/BasicInformation/schema';
 import Select from '../../ui/Select';
 import { genderOptions } from '@/constants/gender';
 

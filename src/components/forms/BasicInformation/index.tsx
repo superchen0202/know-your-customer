@@ -1,11 +1,11 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, type BasicInfo } from './schema';
-import BasicInformationFields from './Fields';
-import FormContainer from '@/components/FormContainer';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
+import FormContainer from '@/components/FormContainer';
+import BasicInformationFields from './Fields';
 import Button from '@/components/ui/Button';
+import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
 import { nextStep } from '@/redux/formStepsSlice';
 
 // https://react-hook-form.com/advanced-usage#WizardFormFunnel

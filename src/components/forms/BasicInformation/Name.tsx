@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfo } from '@/components/forms/BasicInfo/schema';
+import { type BasicInfo } from '@/components/forms/BasicInformation/schema';
 import Input from '../../ui/Input';
 import { MAX_NAME_LENGTH } from '@/constants/fieldLengthLimitation';
 

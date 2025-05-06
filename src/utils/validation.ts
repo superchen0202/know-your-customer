@@ -1,7 +1,7 @@
 import { today } from '@/constants/dates';
 import { parseStringToDateSafely } from './timeParsingHelper';
 import { nationsEnum, PartialCountryCode } from '@/constants/nation';
-import { genderEnum, type Gender } from '@/constants/gender';
+import { genderEnum, type GenderOption } from '@/constants/gender';
 import { differenceInYears, parseISO } from 'date-fns';
 import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 
@@ -12,7 +12,7 @@ export const isPhoneValid = (phone: string, nationality: CountryCode) => {
   return phoneNumber?.isValid();
 };
 
-export const isGenderOptionsValid = (genderOption: string) => genderEnum.includes(genderOption as Gender);
+export const isGenderOptionsValid = (genderOption: string) => genderEnum.includes(genderOption as GenderOption);
 
 export const isNationOptionsValid = (nationOption: string) => nationsEnum.includes(nationOption as PartialCountryCode);
 

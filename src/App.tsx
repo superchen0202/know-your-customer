@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/redux/hooks';
-import BasicInformation from './components/forms/BasicInfo/Form';
+import BasicInformation from './components/forms/BasicInformation';
 import UploadPage from './components/UploadPage';
 import ConfirmPage from './components/ConfirmPage';
 

@@ -7,7 +7,7 @@ import {
   MAX_ADDRESS_LENGTH,
 } from '@/constants/fieldLengthLimitation';
 import { MAX_AGE, MIN_AGE } from '@/constants/dates';
-import { Gender } from '@/constants/gender';
+import { GenderOption } from '@/constants/gender';
 import { PartialCountryCode } from '@/constants/nation';
 import {
   isPhoneValid,
@@ -46,7 +46,7 @@ export const schema = object({
     }),
   gender: string()
     .trim()
-    .refine((val) => val === '' || isGenderOptionsValid(val as Gender), {
+    .refine((val) => val === '' || isGenderOptionsValid(val as GenderOption), {
       message: 'Invalid gender',
     })
     .optional(),
