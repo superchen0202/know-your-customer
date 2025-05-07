@@ -31,7 +31,7 @@ const BasicInformation = () => {
   return (
     <>
       <FormProvider {...formMethods}>
-        <form onSubmit={handleSubmit(submitHandler)}>
+        <form noValidate onSubmit={handleSubmit(submitHandler)}>
           {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
             <BasicInfoField key={fieldName} />
           ))}

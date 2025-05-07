@@ -20,18 +20,29 @@ const Input = (props: InputProps) => {
     <>
       <input
         type={type}
-        // required={required}
+        required={required}
         aria-label={name}
         aria-invalid={error ? 'true' : 'false'}
         data-slot="input"
         className={cn(
-          'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-          'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-          'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-          error
-            ? 'border-red-500 focus:border-red-500'
-            : // 'border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40'
-              'border-input',
+          // base style
+          'flex h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-sm transition-[color,box-shadow] outline-none dark:bg-gray-800',
+
+          // text & placeholder
+          'text-gray-900 placeholder:text-gray-400',
+
+          // file input styling
+          'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:px-2 file:text-sm file:font-medium file:text-gray-900',
+
+          // border & ring states
+          'border-gray-300',
+          'focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/50',
+
+          // error styling (conditional)
+          'aria-invalid:border-red-500 aria-invalid:ring-red-500/20 dark:aria-invalid:ring-red-500/40',
+
+          // disabled styling
+          'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         {...rest}
