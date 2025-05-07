@@ -15,8 +15,8 @@ const UploadSection = (props: UploadSectionProps) => {
   return (
     <div className={cn('rounded-lg border bg-white p-6', className)}>
       <h3 className="mb-1 text-lg font-medium">
-        {required && <span className="mr-2 text-red-500">*</span>}
         {title}
+        {required && <span className="text-red-500">*</span>}
       </h3>
       <p className="mb-4 text-sm text-gray-500">{description}</p>
       {children}

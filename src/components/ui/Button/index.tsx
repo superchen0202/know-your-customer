@@ -1,4 +1,4 @@
-import { type ComponentProps, forwardRef, ReactNode } from 'react';
+import { type ComponentProps, ReactNode } from 'react';
 import { Loader2 } from 'lucide-react';
 import { type ButtonVariants, buttonVariants } from './buttonVariants';
 import { cn } from '@/utils/cn';
@@ -12,7 +12,7 @@ type ButtonProps = ComponentProps<'button'> &
     children: ReactNode;
   };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+const Button = (props: ButtonProps) => {
   const {
     className,
     variant,
@@ -29,7 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   return (
     <button
       className={cn(buttonVariants({ variant, appearance, size }), className)}
-      ref={ref}
+      // ref={ref}
       disabled={isDisabled || isLoading}
       {...restProps}
     >
@@ -42,8 +42,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       {endIcon && !isLoading && <span className="ml-2">{endIcon}</span>}
     </button>
   );
-});
-
-Button.displayName = 'Button';
+};
 
 export default Button;
