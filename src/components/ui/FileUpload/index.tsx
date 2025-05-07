@@ -1,5 +1,5 @@
 import { type ChangeEvent, type ReactNode, useRef, useState } from 'react';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Trash2 } from 'lucide-react';
 import Button from '../Button';
 import FileInfo from '../../FileInfo';
 import { cn } from '@/utils/cn';
@@ -24,6 +24,12 @@ const FileUpload = (props: FileUploadProps) => {
   const [error, setError] = useState('');
 
   const handleUploadClick = () => fileInputRef.current?.click();
+
+  const handleResetFiles = () => {
+    onChange([]);
+    setError('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
@@ -83,6 +89,17 @@ const FileUpload = (props: FileUploadProps) => {
                   Select File{multiple ? 's' : ''}
                 </Button>
               )}
+          {files.length > 0 && (
+            <Button
+              size="sm"
+              variant="danger"
+              appearance="outlined"
+              onClick={handleResetFiles}
+              startIcon={<Trash2 size={18} />}
+            >
+              Reset
+            </Button>
+          )}
         </div>
 
         {files.length > 0 && (
