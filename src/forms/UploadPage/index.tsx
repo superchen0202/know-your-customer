@@ -32,11 +32,11 @@ const UploadPage = () => {
   };
 
   return (
-    <>
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="mb-6 text-2xl font-bold">Document Upload</h1>
+    <div>
+      <div className="mx-auto max-w-3xl px-4 py-4">
+        <h1 className="mb-3 text-2xl font-bold">Document Upload</h1>
 
-        <div className="space-y-6">
+        <div className="space-y-3">
           <UploadSection
             required
             title="ID Card Front"
@@ -108,7 +108,7 @@ const UploadPage = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="flex justify-between px-4 py-2">
         <Button startIcon={<ArrowLeft size={16} />} variant="secondary" onClick={() => dispatchX(backStep())}>
           Back
         </Button>
@@ -116,7 +116,7 @@ const UploadPage = () => {
           Next
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

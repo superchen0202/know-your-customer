@@ -1,16 +1,21 @@
 import { useController } from 'react-hook-form';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
-import Select from '../../components/Select';
+import Select from '../../components/ui/Select';
 import { genderOptions } from '@/constants/gender';
+import FormControl from '@/components/ui/FormControl';
+import ErrorMessage from '@/components/ErrorMessage';
 
 const Gender = () => {
-  const { field, fieldState } = useController<BasicInfo>({ name: 'gender' });
-  // console.log(fieldState.error?.message);
+  const {
+    field,
+    fieldState: { error },
+  } = useController<BasicInfo>({ name: 'gender' });
 
   return (
-    <>
+    <FormControl isRequired title={'Nationality'} htmlFor={field.name}>
       <Select options={genderOptions} {...field} placeholder="Please select your gender" />
-    </>
+      <ErrorMessage error={error?.message} />
+    </FormControl>
   );
 };
 

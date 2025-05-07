@@ -2,7 +2,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, type BasicInfo } from './schema';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import BasicInformationFields from './Fields';
+import BasicInfoFields from './Fields';
 import Button from '@/components/ui/Button';
 import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
 import { nextStep } from '@/redux/formStepsSlice';
@@ -11,6 +11,7 @@ import { ArrowRight, Save } from 'lucide-react';
 // https://react-hook-form.com/advanced-usage#WizardFormFunnel
 const BasicInformation = () => {
   // const { steps, currentStepIndex } = useAppSelector((state) => state.formSteps);
+  const { Name, Email, Phone, Nationality, Gender, Address, BirthDate } = BasicInfoFields;
 
   const defaultValues = useAppSelector((state) => state.basicInfo);
   const dispatch = useAppDispatch();
@@ -31,16 +32,20 @@ const BasicInformation = () => {
   return (
     <>
       <FormProvider {...formMethods}>
-        <form noValidate onSubmit={handleSubmit(submitHandler)}>
-          {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
-            <BasicInfoField key={fieldName} />
-          ))}
-
+        <form className="mx-auto w-3xl space-y-1 px-4" noValidate onSubmit={handleSubmit(submitHandler)}>
+          <Name />
+          <Email />
+          <Phone />
+          <Nationality />
+          <Gender />
+          <Address />
+          <BirthDate />
           <Button type="submit" variant="primary" startIcon={<Save />} endIcon={<ArrowRight />}>
             Next
           </Button>
         </form>
       </FormProvider>
+
       <Button onClick={() => dispatch(nextStep())} endIcon={<ArrowRight />}>
         Debug
       </Button>

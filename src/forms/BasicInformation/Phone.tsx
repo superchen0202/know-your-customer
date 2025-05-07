@@ -1,9 +1,10 @@
 import { useController, useFormContext } from 'react-hook-form';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
-import Input from '../../components/Input';
+import Input from '../../components/ui/Input';
 import { MAX_PHONE_LENGTH } from '@/constants/fieldLengthLimitation';
 import { type CountryCode, getExampleNumber, formatNumber, formatIncompletePhoneNumber } from 'libphonenumber-js';
 import examples from 'libphonenumber-js/mobile/examples';
+import FormControl from '@/components/ui/FormControl';
 
 const Phone = () => {
   const { field, fieldState } = useController<BasicInfo>({ name: 'phone' });
@@ -24,7 +25,7 @@ const Phone = () => {
   };
 
   return (
-    <>
+    <FormControl isRequired title={'Phone'} htmlFor={field.name}>
       <Input
         required
         id={field.name}
@@ -38,7 +39,7 @@ const Phone = () => {
         maxLength={MAX_PHONE_LENGTH}
         error={fieldState.error?.message}
       />
-    </>
+    </FormControl>
   );
 };
 

@@ -10,9 +10,9 @@ const BasicInformationFields = {
   Name,
   Email,
   Phone,
-  Address,
   Nationality,
   Gender,
+  Address,
   BirthDate,
 };
 

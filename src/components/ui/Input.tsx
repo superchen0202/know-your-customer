@@ -1,26 +1,22 @@
-import { ComponentProps, memo } from 'react';
+import { ComponentProps, memo, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 import ErrorMessage from '@/components/ErrorMessage';
 import { RequireProps } from '@/types/basicInfo';
-// import { ControllerFieldState } from 'react-hook-form';
 
-type InputProps = RequireProps<ComponentProps<'input'>, 'type' | 'required'> & {
+type InputProps = RequireProps<ComponentProps<'input'>, 'type'> & {
   error: string | undefined;
-  // fieldState: ControllerFieldState;
+  prefixIcon?: ReactNode;
+  postfixIcon?: ReactNode;
 };
 
-// TODO
-// required sign for <label htmlFor>
-// prefix icon
-// postfix icon
 const Input = (props: InputProps) => {
-  const { className, type, error, required, name, ...rest } = props;
+  const { type, name, error, className, prefixIcon, postfixIcon, ...rest } = props;
 
   return (
     <>
+      {prefixIcon}
       <input
         type={type}
-        required={required}
         aria-label={name}
         aria-invalid={error ? 'true' : 'false'}
         data-slot="input"
@@ -47,12 +43,10 @@ const Input = (props: InputProps) => {
         )}
         {...rest}
       />
+      {postfixIcon}
       <ErrorMessage error={error} />
     </>
   );
 };
 
-export default memo(
-  Input,
-  // (prevProps, nextProps) => prevProps.fieldState.isDirty === nextProps.fieldState.isDirty
-);
+export default memo(Input);
