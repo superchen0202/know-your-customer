@@ -1,6 +1,6 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfo } from '@/components/forms/BasicInformation/schema';
-import Input from '../../ui/Input';
+import { type BasicInfo } from '@/forms/BasicInformation/schema';
+import Input from '../../components/Input';
 import { MAX_NAME_LENGTH } from '@/constants/fieldLengthLimitation';
 
 // https://react-hook-form.com/advanced-usage#FormProviderPerformance

@@ -1,12 +1,12 @@
-import FormContainer from '../shared/components/FormContainer';
+import { useFilesContext } from '@/contexts/FilesHooks';
+import FormContainer from '../components/FormContainer';
 import { useAppSelector } from '@/redux/hooks';
-import DataDisplayer from '@/shared/components/DataDisplayer';
-import FileInfo from '@/shared/components/FileInfo';
+import DataDisplayer from '@/components/DataDisplayer';
+import FileInfo from '@/components/FileInfo';
 
 const ConfirmPage = () => {
-  const { basicInfo, uploadDocs } = useAppSelector((state) => state);
-
-  const { idFront, idBack, additionalDocs } = uploadDocs;
+  const { basicInfo } = useAppSelector((state) => state);
+  const { idFront, idBack, additionalDocs } = useFilesContext();
 
   return (
     <FormContainer>

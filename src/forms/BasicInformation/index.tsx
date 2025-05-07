@@ -2,7 +2,6 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, type BasicInfo } from './schema';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import FormContainer from '@/shared/components/FormContainer';
 import BasicInformationFields from './Fields';
 import Button from '@/components/ui/Button';
 import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
@@ -11,6 +10,8 @@ import { ArrowRight, Save } from 'lucide-react';
 
 // https://react-hook-form.com/advanced-usage#WizardFormFunnel
 const BasicInformation = () => {
+  // const { steps, currentStepIndex } = useAppSelector((state) => state.formSteps);
+
   const defaultValues = useAppSelector((state) => state.basicInfo);
   const dispatch = useAppDispatch();
 
@@ -29,22 +30,20 @@ const BasicInformation = () => {
 
   return (
     <>
-      <FormContainer>
-        <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(submitHandler)}>
-            {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
-              <BasicInfoField key={fieldName} />
-            ))}
+      <FormProvider {...formMethods}>
+        <form onSubmit={handleSubmit(submitHandler)}>
+          {Object.entries(BasicInformationFields).map(([fieldName, BasicInfoField]) => (
+            <BasicInfoField key={fieldName} />
+          ))}
 
-            <Button type="submit" variant="primary" startIcon={<Save />} endIcon={<ArrowRight />}>
-              Next
-            </Button>
-          </form>
-        </FormProvider>
-        <Button onClick={() => dispatch(nextStep())} endIcon={<ArrowRight />}>
-          Debug Next
-        </Button>
-      </FormContainer>
+          <Button type="submit" variant="primary" startIcon={<Save />} endIcon={<ArrowRight />}>
+            Next
+          </Button>
+        </form>
+      </FormProvider>
+      <Button onClick={() => dispatch(nextStep())} endIcon={<ArrowRight />}>
+        Debug
+      </Button>
     </>
   );
 };

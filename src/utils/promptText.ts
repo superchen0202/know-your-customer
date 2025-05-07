@@ -18,7 +18,7 @@ export const getFileTypeLabel = (fileType: File['type']) => {
 /**
  * Formats file size in bytes to a human-readable format
  */
-export const formatFileSize = (bytes: number): string => {
+export const formatFileSizeAsMB = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -26,11 +26,4 @@ export const formatFileSize = (bytes: number): string => {
   return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
-/**
- * Converts a File object to a serializable object for Redux storage
- */
-export const parseToPartialInfo = (file: File): { name: string; size: string; type: string } => ({
-  name: file.name,
-  size: formatFileSize(file.size),
-  type: file.type,
-});
+export const convertMegaBytesToBytes = (mb: number) => mb * 1024 * 1024;

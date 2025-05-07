@@ -28,12 +28,31 @@ export const isAgeRangeValid = (date: string, lowerBound: number, upperBound: nu
   return lowerBound <= age && age <= upperBound;
 };
 
-export const isAcceptedFileType = (file: File, accept: string) => {
-  const acceptedTypes = accept.split(',').map((type) => type.trim().toLowerCase());
-  return acceptedTypes.some((type) => {
-    if (type.startsWith('.')) {
-      return file.name.toLowerCase().endsWith(type);
-    }
-    return file.type === type;
+//  `File${invalidFiles.length > 1 ? 's' : ''} must be one of the accepted formats: ${accept}`;
+export const checkInvalidFormatFileNumbers = (selectedFiles: File[], accept?: string) => {
+  if (!accept) return 0;
+
+  const acceptedTypes = accept.split(',');
+  const invalidFiles = selectedFiles.filter((file) => {
+    const fileExtension = `.${file.name.split('.').pop()}`;
+    const fileType = file.type;
+    return !acceptedTypes.some((type) =>
+      type.startsWith('.') ? fileExtension.toLowerCase() === type.toLowerCase() : fileType === type,
+    );
   });
+
+  return invalidFiles.length;
+};
+
+//`File${oversizedFiles.length > 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} the maximum size of ${formatFileSize(maxBytes)}`
+export const checkOverSizedFileNumbers = (selectedFiles: File[], maxBytes?: number) => {
+  if (maxBytes === undefined) return 0;
+  const oversizedFiles = selectedFiles.filter((file) => file.size > maxBytes);
+  return oversizedFiles.length;
+};
+
+export const pickDuplicatedFiles = (selectedFiles: File[], files: File[]) => {
+  const existingNames = new Set((files ?? []).map((file) => file.name));
+  const duplicatedFiles = selectedFiles.filter((file) => existingNames.has(file.name));
+  return duplicatedFiles;
 };

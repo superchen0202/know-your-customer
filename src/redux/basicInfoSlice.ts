@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { type BasicInfo } from '@/components/forms/BasicInformation/schema';
+import { type BasicInfo } from '@/forms/BasicInformation/schema';
 import { possibleDefaultNation } from '@/utils/inferPossibleNationAsDefault';
 
 const initialState: BasicInfo = {

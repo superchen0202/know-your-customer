@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { nextStep, backStep } from '@/redux/formStepsSlice';
-import Button from '../../components/ui/Button';
+import Button from './ui/Button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 type FormContainerProps = {

@@ -1,6 +1,6 @@
 import { ComponentProps, memo } from 'react';
 import { cn } from '@/utils/cn';
-import ErrorMessage from '@/shared/components/ErrorMessage';
+import ErrorMessage from '@/components/ErrorMessage';
 import { RequireProps } from '@/types/basicInfo';
 // import { ControllerFieldState } from 'react-hook-form';
 

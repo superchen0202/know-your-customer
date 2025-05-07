@@ -1,10 +1,10 @@
 import { FileText, ImageIcon, File } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { getFileTypeLabel } from '@/utils/promptText';
-import { type FilePartialInfo } from '@/redux/uploadDocsSlice';
+import { formatFileSizeAsMB } from '@/utils/promptText';
 
 type FileInfoProps = {
-  file: FilePartialInfo; // File;
+  file: File;
   className?: string;
 };
 
@@ -29,7 +29,7 @@ const FileInfo = (props: FileInfoProps) => {
           {name}
         </p>
         <p className="text-xs text-gray-500">
-          {label} • {size}
+          {label} • {formatFileSizeAsMB(size)}
         </p>
       </div>
     </div>

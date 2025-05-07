@@ -1,6 +1,6 @@
 import { useController } from 'react-hook-form';
-import { type BasicInfo } from '@/components/forms/BasicInformation/schema';
-import Select from '../../ui/Select';
+import { type BasicInfo } from '@/forms/BasicInformation/schema';
+import Select from '../../components/Select';
 import { nationOptions } from '@/constants/nation';
 
 const Nationality = () => {
