@@ -1,4 +1,4 @@
-import { type ChangeEvent, ComponentProps, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, ComponentProps, type ReactNode, useRef, useState } from 'react';
 import { Upload, X, Trash2 } from 'lucide-react';
 import Button from '../Button';
 import FileInfo from '../../FileInfo';

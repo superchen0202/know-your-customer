@@ -1,6 +1,5 @@
 import { MAX_AGE } from './validation';
 
-export const DATE_FORMAT = 'yyyy-MM-dd';
 export const today = new Date();
 export const currentMonth = today.getMonth();
 export const currentYear = today.getFullYear();

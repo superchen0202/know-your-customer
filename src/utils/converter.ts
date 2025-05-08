@@ -1,22 +1,31 @@
 import { BaseMeta } from '@/types/utilityTypes';
 import { today } from '@/constants/dates';
-import { DATE_FORMAT } from '@/constants/dates';
+import { DATE_FORMAT } from '@/constants/validation';
 import { format, parse, isValid, differenceInYears, parseISO } from 'date-fns';
 
-// Mon May 05 2025 00:00:00 GMT+0800 -> '2025-05-05'
+/**
+ * @param date - Mon May 05 2025 00:00:00 GMT+0800.
+ * @returns '2025-05-05'.
+ */
 export const formatDate = (date: Date) => format(date, DATE_FORMAT);
 
-// '2025-05-05' ->  Mon May 05 2025 00:00:00 GMT+0800
-export const parseStringToDateSafely = (dateString: string | undefined) => {
-  if (!dateString) return null;
-  const parsedDate = parse(dateString, DATE_FORMAT, today); //parseISO(dateString);
+/**
+ * @param date - '2025-05-05'.
+ * @returns  Mon May 05 2025 00:00:00 GMT+0800.
+ */
+export const parseStringToDateSafely = (date: string | undefined) => {
+  if (!date) return null;
+  const parsedDate = parse(date, DATE_FORMAT, today); //parseISO(dateString);
   return isValid(parsedDate) ? parsedDate : null;
 };
 
+/**
+ * @param date - '2025-05-05'.
+ * @returns age.
+ */
 export const getAgeFromBirthDate = (date: string) => {
   const birth = parseISO(date);
   const age = differenceInYears(today, birth);
-  // console.log('age is from differenceInYears(today, parseISO(date))', age);
   return age;
 };
 
@@ -41,6 +50,11 @@ export const getFileTypeLabel = (fileType: File['type']) => {
   const extension = fileType.split('.').pop()?.toUpperCase() || 'UNKNOWN';
   return extension;
 };
+
+/**
+ * .jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf'
+ */
+export const buildAcceptAttribute = (formatList: string[]) => formatList.join(',');
 
 /**
  * Formats file size in bytes to a human-readable format

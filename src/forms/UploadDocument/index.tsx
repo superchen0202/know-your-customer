@@ -7,7 +7,6 @@ import Button from '@/components/ui/Button';
 import { backStep, nextStep } from '@/redux/formStepsSlice';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useFilesContext, useFilesDispatch } from '@/contexts/FilesHooks';
-import DataDisplayer from '@/components/DataDisplayer';
 
 const { IDFront, IDBack, AdditionalDocs } = UploadDocsFields;
 

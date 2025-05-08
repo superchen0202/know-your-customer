@@ -5,8 +5,8 @@ import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export const add = (summand: number, addend: number) => summand + addend;
 
-export const isPhoneValid = (phone: string, nationality: CountryCode) => {
-  const phoneNumber = parsePhoneNumberFromString(phone, nationality);
+export const isPhoneValid = (phone: string, nationality: string) => {
+  const phoneNumber = parsePhoneNumberFromString(phone, nationality as CountryCode);
   return phoneNumber?.isValid();
 };
 

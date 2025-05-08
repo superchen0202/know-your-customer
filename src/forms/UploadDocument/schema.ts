@@ -1,14 +1,33 @@
 import { object, instanceof as instanceof_, array, literal, infer as infer_, union } from 'zod';
+import { convertMegaBytesToBytes, formatFileSizeAsMB } from '@/utils/converter';
+import { ACCEPTED_FORMATS, MAX_ID_FILE_MB, MULTI_FILES_MAX_MB } from '@/constants/validation';
+import { checkInvalidFormatFileNumbers, checkOverSizedFileNumbers } from '@/utils/validation';
+import { buildAcceptAttribute } from '@/utils/converter';
 
-// TODO add extra rules such as oversize, check files extension.
+const requiredSingleFile = (fieldName: string) =>
+  union([instanceof_(File), literal(null)])
+    .refine((file): file is File => file instanceof File && file.size > 0, {
+      message: `Please upload ${fieldName}!`,
+    })
+    .refine((file) => checkInvalidFormatFileNumbers([file], buildAcceptAttribute(ACCEPTED_FORMATS)) === 0, {
+      message: 'Invalid format: ID card must be jpg, png, or pdf!',
+    })
+    .refine((file) => checkOverSizedFileNumbers([file], convertMegaBytesToBytes(MAX_ID_FILE_MB)) === 0, {
+      message: `ID card exceeds ${MAX_ID_FILE_MB} MB size limit!`,
+    });
+
 export const schema = object({
-  idFront: union([instanceof_(File), literal(null)]).refine((file) => file instanceof File && file.size > 0, {
-    message: 'Please upload front of your ID card!',
-  }),
-  idBack: union([instanceof_(File), literal(null)]).refine((file) => file instanceof File && file.size > 0, {
-    message: 'Please upload back of your ID card!',
-  }),
-  additionalDocs: array(instanceof_(File)),
+  idFront: requiredSingleFile('front of your ID card'),
+  idBack: requiredSingleFile('back of your ID card'),
+  additionalDocs: array(
+    instanceof_(File)
+      .refine((files) => checkInvalidFormatFileNumbers([files], buildAcceptAttribute(ACCEPTED_FORMATS)) === 0, {
+        message: 'One or more additional documents have invalid format.',
+      })
+      .refine((files) => checkOverSizedFileNumbers([files], convertMegaBytesToBytes(MULTI_FILES_MAX_MB)) === 0, {
+        message: `Each additional document must not exceed ${MULTI_FILES_MAX_MB} MB.`,
+      }),
+  ),
 });
 
 export type UploadDocs = infer_<typeof schema>;

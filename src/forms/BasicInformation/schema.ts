@@ -1,9 +1,6 @@
 import { object, string, infer as infer_ } from 'zod';
-import { CountryCode } from 'libphonenumber-js';
 import { MAX_NAME_LENGTH, MAX_EMAIL_LENGTH, MAX_PHONE_LENGTH, MAX_ADDRESS_LENGTH } from '@/constants/validation';
-import { MAX_AGE, MIN_AGE } from '@/constants/validation';
-import { GenderOption } from '@/constants/gender';
-import { PartialCountryCode } from '@/constants/nation';
+import { DATE_FORMAT, MAX_AGE, MIN_AGE } from '@/constants/validation';
 import {
   isPhoneValid,
   isNationOptionsValid,
@@ -32,12 +29,12 @@ export const schema = object({
   nationality: string()
     .trim()
     .nonempty(createRequiredErrorMsg('Nationality'))
-    .refine((val) => isNationOptionsValid(val as PartialCountryCode), {
+    .refine((val) => isNationOptionsValid(val), {
       message: createInvalidValueErrorMsg('Nation'),
     }),
   gender: string()
     .trim()
-    .refine((val) => val === '' || isGenderOptionsValid(val as GenderOption), {
+    .refine((val) => isGenderOptionsValid(val), {
       message: 'Invalid gender',
     })
     .optional(),
@@ -47,26 +44,17 @@ export const schema = object({
     .trim()
     .nonempty(createRequiredErrorMsg('Date'))
     .refine((val) => isDateMatchFormat(val), {
-      message: 'Date Must Be In YYYY-MM-DD Format!',
+      message: `Date Must Be In ${DATE_FORMAT} Format!`,
     })
     .refine((val) => isDateValid(val), {
       message: createInvalidValueErrorMsg('Date'),
     })
     .refine((val) => isAgeRangeValid(val, MIN_AGE, MAX_AGE), {
-      message: `Age Must Be Between ${MIN_AGE} And ${MAX_AGE} Years Old!`,
+      message: `Age Must Be Between ${MIN_AGE} and ${MAX_AGE} Years Old!`,
     }),
-}).refine(
-  ({ phone, nationality }) => {
-    try {
-      return isPhoneValid(phone, nationality as CountryCode);
-    } catch {
-      return false;
-    }
-  },
-  {
-    path: ['phone'],
-    message: 'Invalid phone number format',
-  },
-);
+}).refine(({ phone, nationality }) => isPhoneValid(phone, nationality), {
+  path: ['phone'],
+  message: 'Invalid phone number format',
+});
 
 export type BasicInfo = infer_<typeof schema>;
