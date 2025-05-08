@@ -1,4 +1,4 @@
-import { type ChangeEvent, type ReactNode, useRef, useState } from 'react';
+import { type ChangeEvent, ComponentProps, type ReactNode, useEffect, useRef, useState } from 'react';
 import { Upload, X, Trash2 } from 'lucide-react';
 import Button from '../Button';
 import FileInfo from '../../FileInfo';
@@ -11,14 +11,14 @@ export type FileUploadProps = {
   accept?: string;
   multiple?: boolean;
   maxBytes?: number; // in bytes
-  files: File[];
-  onChange: (files: File[]) => void;
+  files: File[] | null;
+  onChange: (files: File[] | null) => void;
   children?: ReactNode | ((props: { triggerUpload: () => void }) => ReactNode);
   className?: string;
-};
+} & Omit<ComponentProps<'input'>, 'onChange'>;
 
 const FileUpload = (props: FileUploadProps) => {
-  const { accept, multiple = false, maxBytes, files, onChange, children, className } = props;
+  const { accept, multiple = false, maxBytes, files, onChange, children, className, ref, ...restProps } = props;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
@@ -26,13 +26,17 @@ const FileUpload = (props: FileUploadProps) => {
   const handleUploadClick = () => fileInputRef.current?.click();
 
   const handleResetFiles = () => {
-    onChange([]);
+    onChange(null);
     setError('');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
+
+    if (selectedFiles.length === 0) return;
+    // onChange(null);
+    // if (fileInputRef.current) fileInputRef.current.value = '';
 
     const invalidFormatFiles = checkInvalidFormatFileNumbers(selectedFiles, accept);
     if (invalidFormatFiles > 0) {
@@ -47,25 +51,35 @@ const FileUpload = (props: FileUploadProps) => {
       );
       return;
     }
-    const duplicated = pickDuplicatedFiles(selectedFiles, files);
+
+    const existingFiles = files ?? [];
+    const duplicated = pickDuplicatedFiles(selectedFiles, existingFiles);
     if (duplicated.length > 0) {
       setError(`Duplicate file(s): ${duplicated.map((f) => f.name).join(', ')}`);
       return;
     }
 
-    const newFiles = multiple ? [...files, ...selectedFiles] : selectedFiles;
-    onChange(newFiles);
+    if (!multiple) {
+      onChange(selectedFiles);
+    } else {
+      const newFiles = [...existingFiles, ...selectedFiles];
+      onChange(newFiles);
+    }
+
     setError('');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleDeleteFile = (index: number) => {
     setError('');
+
+    if (!files || files.length === 0) return;
+
     const newFiles = [...files];
     newFiles.splice(index, 1);
-    onChange(newFiles);
 
-    // reset the file input value to allow re-uploading the same file
+    onChange(newFiles.length === 0 ? null : newFiles);
+
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -76,21 +90,31 @@ const FileUpload = (props: FileUploadProps) => {
           <input
             type="file"
             className="hidden"
-            ref={fileInputRef}
             accept={accept}
             multiple={multiple}
             onChange={handleFileChange}
+            {...restProps}
+            ref={(node) => {
+              fileInputRef.current = node;
+              if (!ref) return;
+              if (typeof ref === 'function') {
+                ref(node);
+              } else {
+                ref.current = node;
+              }
+            }}
           />
           {/* open children to customize the upload style */}
           {typeof children === 'function'
             ? children({ triggerUpload: handleUploadClick })
             : children || (
-                <Button onClick={handleUploadClick} startIcon={<Upload />}>
+                <Button type="button" onClick={handleUploadClick} startIcon={<Upload />}>
                   Select File{multiple ? 's' : ''}
                 </Button>
               )}
-          {files.length > 0 && (
+          {files !== null && files.length > 0 && (
             <Button
+              type="button"
               size="sm"
               variant="danger"
               appearance="outlined"
@@ -102,7 +126,7 @@ const FileUpload = (props: FileUploadProps) => {
           )}
         </div>
 
-        {files.length > 0 && (
+        {files !== null && files.length > 0 && (
           <div className="mt-4 space-y-2">
             {files.map((file, index) => (
               <div
@@ -113,7 +137,7 @@ const FileUpload = (props: FileUploadProps) => {
                   <FileInfo file={file} />
                 </div>
                 <Button
-                  data-ignore-upload
+                  type="button"
                   variant="danger"
                   appearance="outlined"
                   size="sm"

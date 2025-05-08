@@ -1,12 +1,7 @@
 import { createContext, useContext, Dispatch } from 'react';
+import { type UploadDocs } from '@/forms/UploadDocument/schema';
 
-export type UploadFiles = {
-  idFront: File | undefined;
-  idBack: File | undefined;
-  additionalDocs?: File[];
-};
-
-export const FilesContext = createContext<UploadFiles | undefined>(undefined);
+export const FilesContext = createContext<UploadDocs | undefined>(undefined);
 
 export const useFilesContext = () => {
   const context = useContext(FilesContext);
@@ -14,23 +9,16 @@ export const useFilesContext = () => {
   return context;
 };
 
-export type UploadFilesAction =
+export type UploadDocsAction =
   | {
       type: 'update';
-      payload: {
-        field: keyof UploadFiles;
-        value: File | File[] | undefined;
-      };
+      payload: UploadDocs;
     }
   | { type: 'clear' };
-export const FilesDispatchContext = createContext<Dispatch<UploadFilesAction> | undefined>(undefined);
+export const FilesDispatchContext = createContext<Dispatch<UploadDocsAction> | undefined>(undefined);
 
 export const useFilesDispatch = () => {
   const context = useContext(FilesDispatchContext);
   if (!context) throw new Error('useFilesDispatch must be used within a FilesDispatchProvider');
   return context;
 };
-
-type UploadFilesError = Partial<Record<keyof UploadFiles, string>>;
-export const FilesErrorContext = createContext<UploadFilesError>({});
-export const FilesErrorDispatchContext = createContext<Dispatch<UploadFilesError>>(() => {});
