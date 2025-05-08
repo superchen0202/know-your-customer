@@ -1,54 +1,53 @@
-# React + TypeScript + Vite
+## 開發技術 | Tech Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **React 版本 / React Version**: React 19.0
+- **開發語言 / Development Language**: TypeScript
+- **狀態管理 / Global State Management**: Redux Toolkit
+- **開發規範 / Development Standards**: Airbnb ESLint
+- **打包工具 / Bundler**: Vite
+- **套件管理器 / package manager**: Yarn
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 環境要求 | Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js v22.14.0 (建議使用 nvm 進行版本管理)
+  **(Recommended: Use nvm for version management)**
+- Yarn 套件管理器
+  **Yarn package manager**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 安裝依賴 | Install Dependencies
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```bash
+yarn install --pure-lock
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 開發模式 | Development Mode
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+一般開發（HTTP）:
+**Run in development mode (HTTP):**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```bash
+yarn run dev
 ```
+
+### 建置專案 | Build The Project
+
+```bash
+yarn run build
+```
+
+### 預覽靜態檔案 | Preview Static Files
+
+```bash
+yarn run preview
+```
+
+---
+
+## 自動化功能 | Automation Features
+
+- **程式碼品質控制 | Code Quality Control**
+  - TypeScript 類型檢查 | TypeScript type checking
+  - ESLint 程式碼規範檢查 | ESLint code linting
+  - 自動程式碼格式化 | Automatic code formatting
