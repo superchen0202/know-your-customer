@@ -12,7 +12,7 @@ const Gender = () => {
   } = useController<BasicInfo>({ name: 'gender' });
 
   return (
-    <FormControl isRequired title={'Gender'} htmlFor={field.name}>
+    <FormControl title={'Gender'} htmlFor={field.name}>
       <Select options={genderOptions} {...field} placeholder="Please select your gender" />
       <ErrorMessage error={error?.message} />
     </FormControl>

@@ -1,7 +1,7 @@
-import { type ComponentProps, useState, useRef, useEffect } from 'react';
-import { Check, ChevronDown, X } from 'lucide-react';
-import Button from './Button';
+import { type ComponentProps, useState, useRef, useEffect, memo } from 'react';
+import { Check, ChevronDown } from 'lucide-react';
 import useClickOutside from '@/hooks/useClickOutside';
+import { cn } from '@/utils/cn';
 
 export type SelectOption = {
   value: string;
@@ -15,7 +15,6 @@ export type SelectProps = {
   placeholder?: string;
   error?: string;
   searchable?: boolean;
-  clearable?: boolean;
 } & Omit<ComponentProps<'select'>, 'onChange'>;
 
 const Select = (props: SelectProps) => {
@@ -33,9 +32,12 @@ const Select = (props: SelectProps) => {
   } = props;
 
   const [searchValue, setSearchValue] = useState('');
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSelectRef = useRef<HTMLSelectElement>(null);
+  const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { isOpen, setIsOpen } = useClickOutside(containerRef);
 
@@ -46,11 +48,22 @@ const Select = (props: SelectProps) => {
       ? options.filter((option) => option.label.toLowerCase().includes(searchValue.toLowerCase()))
       : options;
 
+  useEffect(() => {
+    if (isOpen) setHighlightedIndex(0);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && searchable) setTimeout(() => inputRef.current?.focus(), 0);
+  }, [isOpen, searchable]);
+
+  useEffect(() => {
+    if (!isOpen || highlightedIndex < 0) return;
+    optionRefs.current[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+  }, [highlightedIndex, isOpen]);
+
   const handleToggle = () => {
     if (disabled) return;
     setIsOpen(!isOpen);
-    if (isOpen) return;
-    if (searchable) setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const handleOptionSelect = (option: SelectOption) => {
@@ -59,16 +72,41 @@ const Select = (props: SelectProps) => {
     setSearchValue('');
   };
 
-  const baseStyles = `
-      relative w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm
-      shadow-sm transition-colors focus-within:border-gray-400 focus-within:ring-1 focus-within:ring-gray-400
-      ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
-      ${error ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500' : ''}
-    `;
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false);
+      return;
+    }
+
+    if (!isOpen || filteredOptions.length === 0) return;
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setHighlightedIndex((prev) => (prev + 1) % filteredOptions.length);
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setHighlightedIndex((prev) => (prev - 1 < 0 ? filteredOptions.length - 1 : prev - 1));
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      const selected = filteredOptions[highlightedIndex];
+      if (selected) handleOptionSelect(selected);
+    }
+  };
+
+  const baseStyles = cn(
+    'flex h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-sm transition-[color,box-shadow] outline-none',
+    'text-gray-900 placeholder:text-gray-400',
+    'border-gray-300',
+    'focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/50',
+    'aria-invalid:border-red-500 aria-invalid:ring-red-500/20',
+    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+    error && 'border-red-500 ring-red-500/20',
+    className,
+  );
 
   return (
-    <div className="relative w-full" ref={containerRef}>
-      {/* Hidden native select for form submission */}
+    <div className="relative w-full" ref={containerRef} onKeyDown={handleKeyDown} tabIndex={0}>
+      {/* Native select for form submission */}
       <select
         ref={ref || hiddenSelectRef}
         value={value}
@@ -87,19 +125,19 @@ const Select = (props: SelectProps) => {
         ))}
       </select>
 
-      {/* Custom select trigger */}
+      {/* Custom Select */}
       <div
-        className={`${baseStyles} ${className} flex items-center justify-between`}
+        role="combobox"
         onClick={handleToggle}
+        className={baseStyles}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        role="combobox"
+        aria-invalid={!!error}
       >
         <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
           {isOpen && searchable ? (
             <input
               ref={inputRef}
-              type="text"
               value={searchValue}
               onChange={(event) => setSearchValue(event.target.value)}
               onClick={(event) => event.stopPropagation()}
@@ -113,7 +151,7 @@ const Select = (props: SelectProps) => {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={cn('h-4 w-4 text-gray-500 transition-transform', isOpen && 'rotate-180')} />
         </div>
       </div>
 
@@ -121,13 +159,19 @@ const Select = (props: SelectProps) => {
       {isOpen && (
         <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-200 bg-white py-1 shadow-lg">
           {filteredOptions.length > 0 ? (
-            filteredOptions.map((option) => (
+            filteredOptions.map((option, index) => (
               <div
                 key={option.value}
                 role="option"
                 aria-selected={option.value === value}
-                className={`flex cursor-pointer items-center justify-between px-3 py-2 text-sm ${option.value === value ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'} `}
+                ref={(event) => void (optionRefs.current[index] = event)}
                 onClick={() => handleOptionSelect(option)}
+                onMouseEnter={() => setHighlightedIndex(index)}
+                className={cn(
+                  'flex cursor-pointer items-center justify-between px-3 py-2 text-sm',
+                  option.value === value && 'bg-blue-100 font-medium',
+                  index === highlightedIndex && 'bg-blue-50',
+                )}
               >
                 {option.label}
                 {option.value === value && <Check className="h-4 w-4 text-gray-700" />}
@@ -142,4 +186,4 @@ const Select = (props: SelectProps) => {
   );
 };
 
-export default Select;
+export default memo(Select);
