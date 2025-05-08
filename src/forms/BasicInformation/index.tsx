@@ -6,11 +6,10 @@ import BasicInfoFields from './Fields';
 import Button from '@/components/ui/Button';
 import { updateBasicInfoForm } from '@/redux/basicInfoSlice';
 import { nextStep } from '@/redux/formStepsSlice';
-import { ArrowRight, Save } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 // https://react-hook-form.com/advanced-usage#WizardFormFunnel
 const BasicInformation = () => {
-  // const { steps, currentStepIndex } = useAppSelector((state) => state.formSteps);
   const { Name, Email, Phone, Nationality, Gender, Address, BirthDate } = BasicInfoFields;
 
   const defaultValues = useAppSelector((state) => state.basicInfo);
@@ -24,15 +23,17 @@ const BasicInformation = () => {
 
   const { handleSubmit } = formMethods;
   const submitHandler = (formData: BasicInfo) => {
+    console.log(formData);
     dispatch(updateBasicInfoForm(formData));
     dispatch(nextStep());
-    console.log(formData);
   };
 
   return (
-    <>
+    <div className="mx-auto w-3xl px-4">
+      <h1 className="my-4 text-2xl font-bold">Basic Information</h1>
+
       <FormProvider {...formMethods}>
-        <form className="mx-auto w-3xl px-4" noValidate onSubmit={handleSubmit(submitHandler)}>
+        <form noValidate onSubmit={handleSubmit(submitHandler)}>
           <Name />
           <Email />
           <Phone />
@@ -40,12 +41,14 @@ const BasicInformation = () => {
           <Gender />
           <Address />
           <BirthDate />
-          <Button type="submit" variant="primary" startIcon={<Save />} endIcon={<ArrowRight />}>
-            Next
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" variant="primary" endIcon={<ArrowRight />}>
+              Next
+            </Button>
+          </div>
         </form>
       </FormProvider>
-    </>
+    </div>
   );
 };
 

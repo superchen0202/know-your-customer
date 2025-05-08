@@ -1,7 +1,7 @@
 import { PartialCountryCode } from '@/constants/nation';
 import { isNationOptionsValid } from './validation';
 
-const inferPossibleNationAsDefault = () => {
+export const inferPossibleNationAsDefault = () => {
   const fallback: PartialCountryCode = 'TW';
   // 'en-US', 'zh-TW', 'zh-Hant-HK' -> 'US', 'TW', 'HK
   const language = navigator.language || navigator.languages[0];

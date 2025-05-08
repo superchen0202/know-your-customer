@@ -1,8 +1,6 @@
-import { today } from '@/constants/dates';
-import { parseStringToDateSafely } from './converter';
+import { getAgeFromBirthDate, parseStringToDateSafely } from './converter';
 import { nationsEnum, PartialCountryCode } from '@/constants/nation';
 import { genderEnum, type GenderOption } from '@/constants/gender';
-import { differenceInYears, parseISO } from 'date-fns';
 import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export const add = (summand: number, addend: number) => summand + addend;
@@ -22,9 +20,7 @@ export const isDateMatchFormat = (date: string) => ISO_DATE_REGEX.test(date);
 export const isDateValid = (date: string) => parseStringToDateSafely(date);
 
 export const isAgeRangeValid = (date: string, lowerBound: number, upperBound: number) => {
-  const birth = parseISO(date);
-  const age = differenceInYears(today, birth);
-  // console.log('age is from differenceInYears(today, parseISO(date))', age);
+  const age = getAgeFromBirthDate(date);
   return lowerBound <= age && age <= upperBound;
 };
 

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const formSteps = ['basicInfo', 'uploadFiles', 'confirm'] as const;
+const formSteps = ['basicInfo', 'uploadFiles', 'confirm', 'done'] as const;
 type FormSteps = typeof formSteps;
 
 type FormStepsState = {
@@ -10,7 +10,7 @@ type FormStepsState = {
 
 const initialState: FormStepsState = {
   steps: formSteps,
-  currentStepIndex: 0,
+  currentStepIndex: 0, //TODO
 };
 
 export const formStepsSlice = createSlice({

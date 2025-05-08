@@ -1,6 +1,6 @@
 import { UploadFiles } from '@/contexts/FilesHooks';
 
-export const requiredFields = {
+const requiredFields = {
   idFront: true,
   idBack: true,
 } as const satisfies Partial<Record<keyof UploadFiles, true>>;
@@ -9,7 +9,7 @@ export type UploadFilesError = Partial<Record<keyof UploadFiles, string>>;
 
 export const validateUploadFiles = (
   formData: UploadFiles,
-  required: Partial<Record<keyof UploadFiles, true>>,
+  required = requiredFields as Partial<Record<keyof UploadFiles, true>>,
 ): UploadFilesError => {
   const errors: UploadFilesError = {};
 

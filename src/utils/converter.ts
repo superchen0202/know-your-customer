@@ -1,7 +1,7 @@
 import { BaseMeta } from '@/types/utilityTypes';
 import { today } from '@/constants/dates';
-import { format, parse, isValid } from 'date-fns';
 import { DATE_FORMAT } from '@/constants/dates';
+import { format, parse, isValid, differenceInYears, parseISO } from 'date-fns';
 
 // Mon May 05 2025 00:00:00 GMT+0800 -> '2025-05-05'
 export const formatDate = (date: Date) => format(date, DATE_FORMAT);
@@ -11,6 +11,13 @@ export const parseStringToDateSafely = (dateString: string | undefined) => {
   if (!dateString) return null;
   const parsedDate = parse(dateString, DATE_FORMAT, today); //parseISO(dateString);
   return isValid(parsedDate) ? parsedDate : null;
+};
+
+export const getAgeFromBirthDate = (date: string) => {
+  const birth = parseISO(date);
+  const age = differenceInYears(today, birth);
+  // console.log('age is from differenceInYears(today, parseISO(date))', age);
+  return age;
 };
 
 // enumToOptions

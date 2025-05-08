@@ -3,15 +3,15 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
 import { possibleDefaultNation } from '@/utils/inferDefaultNation';
 
-// TODO
+// TODO for demo
 const initialState: BasicInfo = {
   name: '王小明(測試用假資料)',
   email: 'yoman@funk.mail.com',
-  phone: '0800-092-000',
+  phone: '0972 815 967',
   nationality: possibleDefaultNation,
-  gender: 'prefer_not_to_say',
+  gender: undefined,
   address: 'XXX-XXX-XXXXXX',
-  birthDate: '2009-02-29',
+  birthDate: '1984-02-28',
 };
 
 export const basicInfoSlice = createSlice({

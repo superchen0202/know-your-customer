@@ -1,33 +1,35 @@
 import { useState } from 'react';
 import { useFilesContext } from '@/contexts/FilesHooks';
-import SuccessPage from './SuccessPage';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import DataDisplayer from '@/components/DataDisplayer';
 import FileInfo from '@/components/FileInfo';
 import Button from '@/components/ui/Button';
 import { ArrowLeft } from 'lucide-react';
-import { backStep } from '@/redux/formStepsSlice';
+import { backStep, nextStep } from '@/redux/formStepsSlice';
+import { getAgeFromBirthDate } from '@/utils/converter';
+import { genderMap, GenderOption } from '@/constants/gender';
+import { nationMap, PartialCountryCode } from '@/constants/nation';
+import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
 
 const ConfirmPage = () => {
   const dispatch = useAppDispatch();
-  const { basicInfo } = useAppSelector((state) => state);
+  const basicInfo = useAppSelector((state) => state.basicInfo);
   const { idFront, idBack, additionalDocs } = useFilesContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 500));
     setIsSubmitting(false);
-    setIsSuccess(true);
+    dispatch(nextStep());
   };
-  if (isSuccess) return <SuccessPage />;
+
+  console.log(basicInfo);
 
   return (
     <div className="mx-auto max-w-3xl px-4">
-      <h1 className="mb-6 text-2xl font-bold">Confirmation</h1>
+      <h1 className="my-4 text-2xl font-bold">Confirmation</h1>
 
-      <div className="space-y-6">
+      <div className="space-y-3">
         {/* Personal Information Section */}
         <div className="rounded-lg border border-gray-200 p-5">
           <h2 className="mb-4 text-lg font-semibold">Basic Information</h2>
@@ -42,19 +44,27 @@ const ConfirmPage = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Phone</p>
-              <p className="font-medium">{basicInfo.phone || '-'}</p>
+              <p className="font-medium">
+                {parsePhoneNumberFromString(basicInfo.phone, basicInfo.nationality as CountryCode)?.format(
+                  'NATIONAL',
+                ) || '-'}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Nationality</p>
-              <p className="font-medium">{basicInfo.nationality || '-'}</p>
+              <p className="font-medium">{nationMap[basicInfo.nationality as PartialCountryCode] || '-'}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Gender</p>
-              <p className="font-medium">{basicInfo.gender || '-'}</p>
+              <p className="font-medium">
+                {basicInfo.gender && basicInfo.gender in genderMap ? genderMap[basicInfo.gender as GenderOption] : '-'}
+              </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Date of Birth (YYYY-MM-DD)</p>
-              <p className="font-medium">{basicInfo.birthDate || '-'}</p>
+              <p className="text-sm text-gray-500">Date of Birth</p>
+              <p className="font-medium">
+                {basicInfo.birthDate || '-'} ({getAgeFromBirthDate(basicInfo.birthDate)} years)
+              </p>
             </div>
             <div className="md:col-span-2">
               <p className="text-sm text-gray-500">Address</p>
@@ -102,7 +112,7 @@ const ConfirmPage = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex justify-between py-2">
+      <div className="flex justify-between py-2">
         <Button startIcon={<ArrowLeft size={16} />} variant="secondary" onClick={() => dispatch(backStep())}>
           Back
         </Button>

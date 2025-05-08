@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react';
 
 type StepIndicatorProps = {
-  steps: string[];
+  steps: string[]; //;readonly string[];
   currentStep: number;
   className?: string;
 };

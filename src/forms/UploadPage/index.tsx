@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import Button from '@/components/ui/Button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { backStep, nextStep } from '@/redux/formStepsSlice';
@@ -9,10 +9,9 @@ import UploadSection from '@/components/ui/FileUpload/UploadSection';
 import FileUpload from '@/components/ui/FileUpload';
 import { MULTI_FILES_MAX_MB, SINGLE_FILE_MAX_MB } from '@/constants/validation';
 import { convertMegaBytesToBytes } from '@/utils/converter';
-import { requiredFields, UploadFilesError, validateUploadFiles } from './useFormValidate';
+import { UploadFilesError, validateUploadFiles } from './validationForUpload';
 
 const UploadPage = () => {
-  const { steps, currentStepIndex } = useAppSelector((state) => state.formSteps);
   const dispatchX = useAppDispatch();
 
   const formData = useFilesContext();
@@ -21,7 +20,7 @@ const UploadPage = () => {
   const [formError, setFormError] = useState<UploadFilesError>();
 
   const GoToNextPage = () => {
-    const errors = validateUploadFiles(formData, requiredFields);
+    const errors = validateUploadFiles(formData);
     if (Object.keys(errors).length > 0) {
       setFormError(errors);
       return;
@@ -109,10 +108,10 @@ const UploadPage = () => {
       </div>
 
       <div className="flex justify-between px-4 py-2">
-        <Button startIcon={<ArrowLeft size={16} />} variant="secondary" onClick={() => dispatchX(backStep())}>
+        <Button startIcon={<ArrowLeft />} variant="secondary" onClick={() => dispatchX(backStep())}>
           Back
         </Button>
-        <Button endIcon={<ArrowRight size={16} />} onClick={GoToNextPage}>
+        <Button endIcon={<ArrowRight />} onClick={GoToNextPage}>
           Next
         </Button>
       </div>
