@@ -10,7 +10,7 @@ type FormStepsState = {
 
 const initialState: FormStepsState = {
   steps: formSteps,
-  currentStepIndex: 1, //TODO
+  currentStepIndex: 0, //TODO
 };
 
 export const formStepsSlice = createSlice({

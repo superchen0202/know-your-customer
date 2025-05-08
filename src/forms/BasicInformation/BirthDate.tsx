@@ -1,6 +1,6 @@
 import { useController } from 'react-hook-form';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
-import DatePicker from '@/components/ui/DatePicker/DatePicker';
+import DatePicker from '@/components/ui/DatePicker';
 import { today } from '@/constants/dates';
 import { parseStringToDateSafely } from '@/utils/converter';
 import ErrorMessage from '@/components/ErrorMessage';

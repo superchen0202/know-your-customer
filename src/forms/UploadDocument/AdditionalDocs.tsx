@@ -2,7 +2,7 @@ import { useController } from 'react-hook-form';
 import { type UploadDocs } from './schema';
 import UploadSection from '@/components/ui/FileUpload/UploadSection';
 import { convertMegaBytesToBytes } from '@/utils/converter';
-import { MULTI_FILES_MAX_MB } from '@/constants/validation';
+import { ACCEPTED_FILE_FORMATS, MULTI_FILES_MAX_MB } from '@/constants/validation';
 import FileUpload from '@/components/ui/FileUpload';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -24,7 +24,7 @@ const AdditionalDocs = () => {
           ref={field.ref}
           files={Array.isArray(field.value) && field.value.length > 0 ? field.value : null}
           onChange={(files) => field.onChange(files ?? [])}
-          accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+          accept={ACCEPTED_FILE_FORMATS}
           maxBytes={convertMegaBytesToBytes(MULTI_FILES_MAX_MB)}
         />
         {error && <ErrorMessage error={error.message} />}

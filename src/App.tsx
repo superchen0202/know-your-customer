@@ -1,9 +1,9 @@
 import { useAppSelector } from '@/redux/hooks';
 import BasicInformation from './forms/BasicInformation';
-import ConfirmPage from './pages/ConfirmPage';
+import ConfirmPage from './layout/ConfirmPage';
 import { FilesProvider } from './contexts/FilesContext';
 import StepIndicator from './components/ui/StepIndicator';
-import SuccessPage from './pages/SuccessPage';
+import SuccessPage from './layout/SuccessPage';
 import UploadDocument from './forms/UploadDocument';
 
 const App = () => {

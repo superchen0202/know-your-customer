@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import Label, { type LabelProps } from './Label';
+import Label, { type LabelProps } from '../Label';
 import { RequireProps } from '@/types/utilityTypes';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../../ErrorMessage';
 
 type FormControlProps = {
   children: ReactNode;

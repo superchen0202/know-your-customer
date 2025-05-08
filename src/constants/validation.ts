@@ -11,3 +11,4 @@ export const MAX_AGE = 85;
 // files Size
 export const SINGLE_FILE_MAX_MB = 5;
 export const MULTI_FILES_MAX_MB = 10;
+export const ACCEPTED_FILE_FORMATS = '.jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf';
