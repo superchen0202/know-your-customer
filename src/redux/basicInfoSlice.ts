@@ -3,6 +3,19 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
 import { possibleDefaultNation } from '@/utils/inferPossibleNationAsDefault';
 
+// TODO
+const initialState: BasicInfo = {
+  name: '叫我第一名',
+  email: 'yoman@funk.mail.com',
+  phone: '0972-359-845',
+  nationality: possibleDefaultNation,
+  gender: 'male',
+  address: 'XXX-XXX-XXXXXX',
+  birthDate: '1997-02-05',
+};
+
+//TODO
+/*
 const initialState: BasicInfo = {
   name: '',
   email: '',
@@ -12,6 +25,7 @@ const initialState: BasicInfo = {
   address: '',
   birthDate: '', //formatDate(today), // formatDate(new Date('1981-15-31'))
 };
+// */
 
 export const basicInfoSlice = createSlice({
   name: 'basicInfoSlice',

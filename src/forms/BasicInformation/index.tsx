@@ -32,7 +32,7 @@ const BasicInformation = () => {
   return (
     <>
       <FormProvider {...formMethods}>
-        <form className="mx-auto w-3xl space-y-1 px-4" noValidate onSubmit={handleSubmit(submitHandler)}>
+        <form className="mx-auto w-3xl px-4" noValidate onSubmit={handleSubmit(submitHandler)}>
           <Name />
           <Email />
           <Phone />
@@ -45,10 +45,6 @@ const BasicInformation = () => {
           </Button>
         </form>
       </FormProvider>
-
-      <Button onClick={() => dispatch(nextStep())} endIcon={<ArrowRight />}>
-        Debug
-      </Button>
     </>
   );
 };

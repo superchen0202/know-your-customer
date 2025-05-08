@@ -107,7 +107,7 @@ const FileUpload = (props: FileUploadProps) => {
             {files.map((file, index) => (
               <div
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between gap-2 rounded-md border bg-gray-50 p-3"
+                className="flex items-center justify-between gap-2 rounded-md border border-gray-300 bg-gray-50 p-2"
               >
                 <div className="min-w-0 flex-1">
                   <FileInfo file={file} />
