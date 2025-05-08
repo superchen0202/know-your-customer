@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import type { PayloadAction } from '@reduxjs/toolkit';
 
 const formSteps = ['basicInfo', 'uploadFiles', 'confirm'] as const;
 type FormSteps = typeof formSteps;

@@ -1,4 +1,4 @@
-import { add } from '../validation';
+import { add } from '@/utils/validation';
 
 // basic validation for testing unit test work fine:
 describe('add ():', () => {

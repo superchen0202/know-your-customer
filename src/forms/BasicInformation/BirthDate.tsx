@@ -2,7 +2,7 @@ import { useController } from 'react-hook-form';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
 import DatePicker from '@/components/ui/DatePicker/DatePicker';
 import { today } from '@/constants/dates';
-import { parseStringToDateSafely } from '@/utils/timeParsingHelper';
+import { parseStringToDateSafely } from '@/utils/converter';
 import ErrorMessage from '@/components/ErrorMessage';
 import FormControl from '@/components/ui/FormControl';
 

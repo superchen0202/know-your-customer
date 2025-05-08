@@ -1,12 +1,7 @@
 import { object, string, infer as infer_ } from 'zod';
 import { CountryCode } from 'libphonenumber-js';
-import {
-  MAX_NAME_LENGTH,
-  MAX_EMAIL_LENGTH,
-  MAX_PHONE_LENGTH,
-  MAX_ADDRESS_LENGTH,
-} from '@/constants/fieldLengthLimitation';
-import { MAX_AGE, MIN_AGE } from '@/constants/dates';
+import { MAX_NAME_LENGTH, MAX_EMAIL_LENGTH, MAX_PHONE_LENGTH, MAX_ADDRESS_LENGTH } from '@/constants/validation';
+import { MAX_AGE, MIN_AGE } from '@/constants/validation';
 import { GenderOption } from '@/constants/gender';
 import { PartialCountryCode } from '@/constants/nation';
 import {

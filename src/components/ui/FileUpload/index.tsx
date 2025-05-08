@@ -3,7 +3,7 @@ import { Upload, X, Trash2 } from 'lucide-react';
 import Button from '../Button';
 import FileInfo from '../../FileInfo';
 import { cn } from '@/utils/cn';
-import { formatFileSizeAsMB } from '@/utils/promptText';
+import { formatFileSizeAsMB } from '@/utils/converter';
 import { checkInvalidFormatFileNumbers, checkOverSizedFileNumbers, pickDuplicatedFiles } from '@/utils/validation';
 import ErrorMessage from '@/components/ErrorMessage';
 

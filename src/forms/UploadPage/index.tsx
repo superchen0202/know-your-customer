@@ -7,8 +7,8 @@ import { useState } from 'react';
 import ErrorMessage from '@/components/ErrorMessage';
 import UploadSection from '@/components/ui/FileUpload/UploadSection';
 import FileUpload from '@/components/ui/FileUpload';
-import { MULTI_FILES_MAX_MB, SINGLE_FILE_MAX_MB } from '@/constants/filesUnitsAndLimitation';
-import { convertMegaBytesToBytes } from '@/utils/promptText';
+import { MULTI_FILES_MAX_MB, SINGLE_FILE_MAX_MB } from '@/constants/validation';
+import { convertMegaBytesToBytes } from '@/utils/converter';
 import { requiredFields, UploadFilesError, validateUploadFiles } from './useFormValidate';
 
 const UploadPage = () => {

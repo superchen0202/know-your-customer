@@ -1,7 +1,7 @@
 import { useController } from 'react-hook-form';
 import { type BasicInfo } from '@/forms/BasicInformation/schema';
 import Input from '../../components/ui/Input';
-import { MAX_NAME_LENGTH } from '@/constants/fieldLengthLimitation';
+import { MAX_NAME_LENGTH } from '@/constants/validation';
 import Label from '@/components/ui/Label';
 import FormControl from '@/components/ui/FormControl';
 

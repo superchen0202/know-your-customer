@@ -1,5 +1,5 @@
 import { CountryCode } from 'libphonenumber-js';
-import { createEnumOptions, defineEnumMap } from '@/utils/enumToOptionsFactory';
+import { createEnumOptions, defineEnumMap } from '@/utils/converter';
 
 export const nationMap = {
   AU: 'Australia',

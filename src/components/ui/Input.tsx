@@ -1,7 +1,7 @@
 import { ComponentProps, memo, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 import ErrorMessage from '@/components/ErrorMessage';
-import { RequireProps } from '@/types/basicInfo';
+import { RequireProps } from '@/types/utilityTypes';
 
 type InputProps = RequireProps<ComponentProps<'input'>, 'type'> & {
   error: string | undefined;

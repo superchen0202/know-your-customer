@@ -1,7 +1,6 @@
 import { FileText, ImageIcon, File } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { getFileTypeLabel } from '@/utils/promptText';
-import { formatFileSizeAsMB } from '@/utils/promptText';
+import { getFileTypeLabel, formatFileSizeAsMB } from '@/utils/converter';
 
 type FileInfoProps = {
   file: File;

@@ -5,25 +5,3 @@ export const createInvalidValueErrorMsg = (fieldName: string) => `Invalid ${fiel
 
 export const descriptionOfUpload = (fieldName: string, maxSize: number) =>
   `Upload the ${fieldName} side of your ID card (jpg, png, pdf formats, ${maxSize} MB size limit)`;
-
-export const getFileTypeLabel = (fileType: File['type']) => {
-  if (fileType.startsWith('image/')) return fileType.replace('image/', '').toUpperCase();
-  if (fileType === 'application/pdf') return 'PDF';
-
-  // Extract extension from filename if type is not recognized
-  const extension = fileType.split('.').pop()?.toUpperCase() || 'UNKNOWN';
-  return extension;
-};
-
-/**
- * Formats file size in bytes to a human-readable format
- */
-export const formatFileSizeAsMB = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
-
-export const convertMegaBytesToBytes = (mb: number) => mb * 1024 * 1024;

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useFilesContext } from '@/contexts/FilesHooks';
 import SuccessPage from './SuccessPage';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -6,7 +7,6 @@ import FileInfo from '@/components/FileInfo';
 import Button from '@/components/ui/Button';
 import { ArrowLeft } from 'lucide-react';
 import { backStep } from '@/redux/formStepsSlice';
-import { useState } from 'react';
 
 const ConfirmPage = () => {
   const dispatch = useAppDispatch();
@@ -53,10 +53,8 @@ const ConfirmPage = () => {
               <p className="font-medium">{basicInfo.gender || '-'}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Date of Birth</p>
-              <p className="font-medium">
-                {basicInfo.birthDate ? new Date(basicInfo.birthDate).toLocaleDateString() : '-'}
-              </p>
+              <p className="text-sm text-gray-500">Date of Birth (YYYY-MM-DD)</p>
+              <p className="font-medium">{basicInfo.birthDate || '-'}</p>
             </div>
             <div className="md:col-span-2">
               <p className="text-sm text-gray-500">Address</p>

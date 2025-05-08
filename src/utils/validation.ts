@@ -1,5 +1,5 @@
 import { today } from '@/constants/dates';
-import { parseStringToDateSafely } from './timeParsingHelper';
+import { parseStringToDateSafely } from './converter';
 import { nationsEnum, PartialCountryCode } from '@/constants/nation';
 import { genderEnum, type GenderOption } from '@/constants/gender';
 import { differenceInYears, parseISO } from 'date-fns';
@@ -28,7 +28,6 @@ export const isAgeRangeValid = (date: string, lowerBound: number, upperBound: nu
   return lowerBound <= age && age <= upperBound;
 };
 
-//  `File${invalidFiles.length > 1 ? 's' : ''} must be one of the accepted formats: ${accept}`;
 export const checkInvalidFormatFileNumbers = (selectedFiles: File[], accept?: string) => {
   if (!accept) return 0;
 
@@ -44,7 +43,6 @@ export const checkInvalidFormatFileNumbers = (selectedFiles: File[], accept?: st
   return invalidFiles.length;
 };
 
-//`File${oversizedFiles.length > 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} the maximum size of ${formatFileSize(maxBytes)}`
 export const checkOverSizedFileNumbers = (selectedFiles: File[], maxBytes?: number) => {
   if (maxBytes === undefined) return 0;
   const oversizedFiles = selectedFiles.filter((file) => file.size > maxBytes);
