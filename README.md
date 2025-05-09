@@ -31,6 +31,18 @@ yarn install --pure-lock
 yarn run dev
 ```
 
+### 執行測試 | Run The Test Cases
+
+```bash
+yarn run test
+```
+
+### 測試報告 | See The Testing Report
+
+```bash
+yarn run test:coverage
+```
+
 ### 建置專案 | Build The Project
 
 ```bash
