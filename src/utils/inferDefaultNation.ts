@@ -6,7 +6,7 @@ export const inferPossibleNationAsDefault = () => {
   // 'en-US', 'zh-TW', 'zh-Hant-HK' -> 'US', 'TW', 'HK
   const language = navigator.language || navigator.languages[0];
   const region = language.split('-').at(-1)?.toUpperCase();
-  return isNationOptionsValid(region as PartialCountryCode) ? region : fallback;
+  return isNationOptionsValid(region as string) ? (region as string) : fallback;
 };
 
 export const possibleDefaultNation = inferPossibleNationAsDefault();

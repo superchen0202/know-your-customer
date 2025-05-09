@@ -1,6 +1,6 @@
 import { schema as basicInfoSchema } from '@/forms/BasicInformation/schema';
 import { formatDate, getAgeFromBirthDate, parseStringToDateSafely } from '../converter';
-import { subYears, format } from 'date-fns';
+import { subYears } from 'date-fns';
 import { isAgeRangeValid } from '@/utils/validation';
 
 const validBasicInfo = {
