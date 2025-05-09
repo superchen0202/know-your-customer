@@ -39,7 +39,7 @@ export const checkInvalidFormatFileNumbers = (selectedFiles: File[], accept?: st
 
 export const checkOverSizedFileNumbers = (selectedFiles: File[], maxBytes?: number) => {
   if (maxBytes === undefined) return 0;
-  const oversizedFiles = selectedFiles.filter((file) => file.size > maxBytes);
+  const oversizedFiles = selectedFiles.filter((file) => file instanceof File && file.size > maxBytes);
   return oversizedFiles.length;
 };
 
